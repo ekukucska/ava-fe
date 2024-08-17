@@ -1,0 +1,15 @@
+.custom-heading {
+  color: var(--ava-red-color);
+  background-color: blue;
+}
+
+.custom-button-primary {
+    color: blue;
+    background-color: red;
+
+}
+
+.custom-button-secondary {
+    color: red;
+    background-color: blue;
+}

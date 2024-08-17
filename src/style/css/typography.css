@@ -1,0 +1,14 @@
+:root {
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-sm: 0.875rem;
+  
+    --line-height-base: 1.5;
+    --line-height-lg: 1.75;
+    --line-height-sm: 1.25;
+  
+    --border-radius: 0.25rem;
+  
+    --transition-duration: 0.15s;
+    --transition-timing-function: ease-in-out;
+  }
