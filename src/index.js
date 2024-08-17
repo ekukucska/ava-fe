@@ -2,17 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./index.css";
 import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
 import CssBaseline from "@mui/material/CssBaseline"; // Import CssBaseline for consistent styling
-import theme from "./style/js/theme"; // Import custom theme
+import theme from "./style/theme"; // Import the custom theme
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      {/* Wrap App with ThemeProvider */}
-      <CssBaseline /> {/* Normalize styles across browsers */}
+      <CssBaseline />
       <App />
     </ThemeProvider>
   </React.StrictMode>
