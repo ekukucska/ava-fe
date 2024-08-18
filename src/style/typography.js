@@ -1,8 +1,13 @@
+import colors from "./colors";
+
 const typography = {
-  fontFamily: "Roboto, Arial, sans-serif",
+  fontFamily: "Nunito, Roboto, Arial, sans-serif",
+  fontSize: 16,
   h1: {
-    fontSize: "2rem",
-    fontWeight: 500,
+    fontSize: "1.5rem",
+    fontWeight: 400,
+    lineHeight: "2rem",
+    color: colors.primary.main,
   },
   h2: {
     fontSize: "1.5rem",

@@ -37,6 +37,8 @@ const colors = {
     dark: "#1b5e20",
     contrastText: "#ffffff",
   },
+  white: "#ffffff",
+  black: "#000000",
   ava_red: {
     main: "#ff0000",
     light: "#ff0000",
