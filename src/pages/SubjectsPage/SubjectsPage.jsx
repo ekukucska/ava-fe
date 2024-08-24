@@ -1,7 +1,8 @@
 import React from 'react';
+import { Typography } from '@mui/material';
 
 function SubjectsPage() {
-  return <h1>Subjects Page</h1>;
+  return <Typography variant="subtitle1">Subjects Page</Typography>;
 }
 
 export default SubjectsPage;

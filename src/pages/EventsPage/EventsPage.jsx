@@ -1,41 +1,41 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import CustomButton from '../../components/Button/Button';
+import StudiesList from '../../components/StudiesList/StudiesList';
+import { studies } from '../../mockData/mockStudies';
 
 function EventsPage() {
   return (
-    <Container maxWidth="lg">
-      <div
-        style={{
+    <>
+      <Box
+        sx={{
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: 'column',
+          gap: '2rem',
+          padding: '2.5rem',
         }}
+        maxWidth="1500px"
       >
-        <Typography variant="h1">Events Page</Typography>
-        <CustomButton
-          startIcon={<VisibilityOutlinedIcon />}
-          text="Compare multiple studies"
-          variant="outlined"
-          onClick={() => console.log('View')}
-        />
-      </div>
-      <br />
-      <CustomButton text="Create new event" variant="contained" />
-      <CustomButton
-        endIcon={<VisibilityOutlinedIcon />}
-        text="Compare multiple subjects"
-        variant="outlined"
-        color="secondary"
-        onClick={() => console.log('View')}
-      />
-      <br />
-      <br />
-      <Link to="events-details">Go to Events Details</Link>
-    </Container>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="subtitle1">Events Page</Typography>
+          <CustomButton
+            startIcon={<VisibilityOutlinedIcon />}
+            text="Compare multiple studies"
+            variant="outlined"
+            onClick={() => console.log('View')}
+          />
+        </Box>
+        <StudiesList studies={studies} showPercentage={true} />
+      </Box>
+    </>
   );
 }
 
