@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import PropTypes from 'prop-types';
 
 function CustomButton({
   color = 'primary',
@@ -24,11 +25,19 @@ function CustomButton({
         fontFamily: 'Nunito, sans-serif',
         whiteSpace: 'nowrap',
       }}
-      {...props} // Spread other props like onClick, etc.
+      {...props}
     >
       {text}
     </Button>
   );
 }
+
+CustomButton.propTypes = {
+  color: PropTypes.string,
+  variant: PropTypes.string,
+  text: PropTypes.string,
+  startIcon: PropTypes.node,
+  endIcon: PropTypes.node,
+};
 
 export default CustomButton;

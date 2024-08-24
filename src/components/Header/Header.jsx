@@ -1,12 +1,24 @@
-import { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, Tooltip, MenuItem, Divider } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
-import { useTheme } from "@mui/material/styles";
+import { useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Button,
+  Tooltip,
+  MenuItem,
+  Divider,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
+import { useTheme } from '@mui/material/styles';
 
-const pages = ["Studies", "Subjects", "Events"];
-const settings = ["Profile", "Account", "Settings", "Dashboard", "Logout"];
+const pages = ['Studies', 'Subjects', 'Events'];
+const settings = ['Profile', 'Account', 'Settings', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
   const theme = useTheme(); // Access the theme
@@ -38,7 +50,10 @@ function ResponsiveAppBar() {
     if (location.pathname === '/' && page.toLowerCase() === 'studies') {
       return true;
     }
-    if (page.toLowerCase() === 'events' && location.pathname.startsWith('/events')) {
+    if (
+      page.toLowerCase() === 'events' &&
+      location.pathname.startsWith('/events')
+    ) {
       return true;
     }
     return location.pathname === `/${page.toLowerCase()}`;
@@ -47,9 +62,20 @@ function ResponsiveAppBar() {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: theme.palette.background.default, minHeight: "4rem" }}
+      sx={{
+        backgroundColor: '#ffffff',
+        minHeight: '4rem',
+        boxShadow: 'none',
+        borderBottom: '1px solid #e0ecf9',
+      }}
     >
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{
+          boxShadow: 'none',
+          borderBottom: '1px solid #e0ecf9',
+        }}
+      >
         <Toolbar disableGutters>
           <Box
             component="img"
@@ -65,7 +91,7 @@ function ResponsiveAppBar() {
           <Divider
             orientation="vertical"
             sx={{
-              display: { xs: "none", md: "flex" },
+              display: { xs: 'none', md: 'flex' },
               height: 40,
               backgroundColor: theme.palette.divider,
               mx: 2,
@@ -73,25 +99,24 @@ function ResponsiveAppBar() {
           />
 
           <Typography
-            variant="h6"
+            variant="subtitle1"
             noWrap
             component={Link}
-            to="/"  // Navigate to the home page when clicked
+            to="/"
             sx={{
               mr: 8,
-              display: { xs: "none", md: "flex" },
+              display: { xs: 'none', md: 'flex' },
               fontFamily: "'Brandon Grotesque', 'sans-serif'",
-              fontSize: "26px",
               fontWeight: 700,
-              letterSpacing: "0.05rem",
-              color: theme.palette.text.primary,
-              textDecoration: "none",
+              letterSpacing: '0.05rem',
+              textDecoration: 'none',
+              color: theme.palette.secondary.main,
             }}
           >
             Analytics Visualization App
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -106,34 +131,34 @@ function ResponsiveAppBar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: 'bottom',
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map((page) => (
                 <MenuItem
                   key={page}
-                  component={Link} // Use Link to enable navigation
-                  to={`/${page.toLowerCase()}`} // Set the navigation path
-                  onClick={handleCloseNavMenu} // Close menu on click
+                  component={Link}
+                  to={`/${page.toLowerCase()}`}
+                  onClick={handleCloseNavMenu}
                   sx={{
                     color: isActive(page)
                       ? theme.palette.primary.main
-                      : theme.palette.text.primary,
+                      : theme.palette.secondary.main,
                     fontFamily: "'Nunito', sans-serif",
-                    textTransform: "capitalize",
-                    fontSize: "24px",
-                    fontWeight: 400,
+                    textTransform: 'capitalize',
+                    fontSize: '20px',
+                    fontWeight: 600,
                   }}
                 >
                   {page}
@@ -147,10 +172,10 @@ function ResponsiveAppBar() {
             src="/assets/svg/your-logo.svg"
             alt="Logo"
             sx={{
-              display: { xs: "none" },
+              display: { xs: 'none' },
               mr: 1,
               width: 80,
-              height: "auto",
+              height: 'auto',
             }}
           />
 
@@ -158,22 +183,22 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component={Link}
-            to="/"  // Navigate to the home page when clicked
+            to="/"
             sx={{
               mr: 4,
-              display: { xs: "flex", md: "none" },
+              display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               fontFamily: "'Brandon Grotesque', 'sans-serif'",
-              fontSize: "26px",
+              fontSize: '26px',
               fontWeight: 700,
-              letterSpacing: "0.05rem",
+              letterSpacing: '0.05rem',
               color: theme.palette.text.primary,
-              textDecoration: "none",
+              textDecoration: 'none',
             }}
           >
             AVA
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -184,12 +209,12 @@ function ResponsiveAppBar() {
                   my: 2,
                   color: isActive(page)
                     ? theme.palette.primary.main
-                    : theme.palette.text.primary,
-                  display: "block",
+                    : theme.palette.secondary.main,
+                  display: 'block',
                   fontFamily: "'Nunito', sans-serif",
-                  fontSize: "24px",
-                  fontWeight: 400,
-                  textTransform: "capitalize",
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  textTransform: 'capitalize',
                 }}
               >
                 {page}
@@ -204,12 +229,12 @@ function ResponsiveAppBar() {
                   sx={{
                     width: 40,
                     height: 40,
-                    borderRadius: "50%",
+                    borderRadius: '50%',
                     backgroundColor: circleColor,
                     border: `2px solid ${borderColor}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   <PersonIcon sx={{ color: activeColor, fontSize: 30 }} />
@@ -217,17 +242,17 @@ function ResponsiveAppBar() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
