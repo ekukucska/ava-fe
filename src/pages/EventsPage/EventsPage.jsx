@@ -1,4 +1,5 @@
-import React from 'react';
+import { useContext } from 'react';
+import StudiesContext from '../../state/StudiesContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,6 +8,23 @@ import StudiesList from '../../components/StudiesList/StudiesList';
 import { studies } from '../../mockData/mockStudies';
 
 function EventsPage() {
+  const {
+    compareMultipleStudies,
+    setCompareMultipleStudies,
+    setSelectedStudies,
+  } = useContext(StudiesContext);
+
+  const handleOnClickCompareMultipleStudies = () => {
+    if (compareMultipleStudies) {
+      setCompareMultipleStudies(false);
+      setSelectedStudies([]);
+    } else {
+      setCompareMultipleStudies(true);
+    }
+  };
+
+  console.log('EventsPage: compareMultipleStudies:', compareMultipleStudies); // TODO: Remove after testing
+
   return (
     <>
       <Box
@@ -30,7 +48,7 @@ function EventsPage() {
             startIcon={<VisibilityOutlinedIcon />}
             text="Compare multiple studies"
             variant="outlined"
-            onClick={() => console.log('View')}
+            onClick={handleOnClickCompareMultipleStudies}
           />
         </Box>
         <StudiesList studies={studies} showPercentage={true} />
