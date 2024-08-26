@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -6,15 +6,54 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Checkbox from '@mui/material/Checkbox';
 import EventsTypesList from '../../components/EventsTypesList/EventsTypesList';
 import formatISODateToDayMonth from '../../utils/transformers/formatISODateToDayMonth';
+import StudiesContext from '../../state/StudiesContext';
 
 const StudiesList = ({ studies, showPercentage }) => {
   const navigate = useNavigate();
+  const { selectedStudies, setSelectedStudies, compareMultipleStudies } =
+    useContext(StudiesContext);
 
-  const handleOnClickStudyCard = () => {
-    navigate('/events/events-details');
+  useEffect(() => {
+    if (!compareMultipleStudies) {
+      setSelectedStudies([]);
+    }
+  }, [compareMultipleStudies, setSelectedStudies]);
+
+  const handleOnClickStudyCard = (event, studyName) => {
+    if (event.target.type === 'checkbox') {
+      return;
+    }
+
+    if (compareMultipleStudies) {
+      if (selectedStudies.includes(studyName)) {
+        setSelectedStudies((prev) =>
+          prev.filter((study) => study !== studyName)
+        );
+      } else {
+        setSelectedStudies((prev) => [...prev, studyName]);
+      }
+    } else {
+      setSelectedStudies([studyName]);
+      navigate('/events/events-details');
+    }
   };
+
+  const isStudySelected = (studyName) => selectedStudies.includes(studyName);
+
+  const handleCheckboxClick = (event, studyName) => {
+    event.stopPropagation();
+
+    if (isStudySelected(studyName)) {
+      setSelectedStudies((prev) => prev.filter((study) => study !== studyName));
+    } else {
+      setSelectedStudies((prev) => [...prev, studyName]);
+    }
+  };
+
+  console.log('StudiesList: selectedStudies:', selectedStudies); // TODO: Remove after testing
 
   return (
     <>
@@ -34,7 +73,7 @@ const StudiesList = ({ studies, showPercentage }) => {
                 backgroundColor: '#E0ECF9',
               },
             }}
-            onClick={handleOnClickStudyCard}
+            onClick={(event) => handleOnClickStudyCard(event, study.studyName)} // Pass studyName to the handler
           >
             <Box
               sx={{
@@ -47,6 +86,29 @@ const StudiesList = ({ studies, showPercentage }) => {
                 justifyContent: 'space-between',
               }}
             >
+              {compareMultipleStudies && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '16px',
+                    marginRight: '16px',
+                  }}
+                >
+                  <Checkbox
+                    checked={isStudySelected(study.studyName)}
+                    onChange={(event) =>
+                      handleCheckboxClick(event, study.studyName)
+                    }
+                    size="medium"
+                    sx={{
+                      transform: 'scale(1)',
+                    }}
+                  />
+                </Box>
+              )}
               <Box
                 sx={{
                   display: 'flex',
