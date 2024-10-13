@@ -3,8 +3,10 @@ import StudiesContext from '../../state/StudiesContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CustomButton from '../../components/Button/Button';
+import MainContentContainer from '../../components/MainContentContainer/MainContentContainer';
+import CustomButton from '../../components/CustomButton/CustomButton';
 import StudiesList from '../../components/StudiesList/StudiesList';
+import StudiesFooter from '../../components/StudiesFooter/StudiesFooter';
 import { studies } from '../../mockData/mockStudies';
 
 function EventsPage() {
@@ -27,15 +29,7 @@ function EventsPage() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2rem',
-          padding: '2.5rem',
-        }}
-        maxWidth="1500px"
-      >
+      <MainContentContainer>
         <Box
           sx={{
             display: 'flex',
@@ -43,7 +37,9 @@ function EventsPage() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="subtitle1">Events Page</Typography>
+          <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
+            Events Page
+          </Typography>
           <CustomButton
             startIcon={<VisibilityOutlinedIcon />}
             text="Compare multiple studies"
@@ -52,7 +48,8 @@ function EventsPage() {
           />
         </Box>
         <StudiesList studies={studies} showPercentage={true} />
-      </Box>
+      </MainContentContainer>
+      {compareMultipleStudies && <StudiesFooter />}
     </>
   );
 }

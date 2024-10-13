@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import MainContentContainer from '../../components/MainContentContainer/MainContentContainer';
 import Typography from '@mui/material/Typography';
 
 function StudiesPage() {
@@ -12,10 +13,14 @@ function StudiesPage() {
   }, []);
 
   return (
-    <div>
-      <Typography variant="subtitle1">Studies Page</Typography>
-      <Typography variant="body1">{message}</Typography>
-    </div>
+    <>
+      <MainContentContainer>
+        <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
+          Studies Page
+        </Typography>
+        <Typography variant="body1">Data from BE: {message}</Typography>
+      </MainContentContainer>
+    </>
   );
 }
 
