@@ -21,7 +21,7 @@ const pages = ['Studies', 'Subjects', 'Events'];
 const settings = ['Profile', 'Account', 'Settings', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
-  const theme = useTheme(); // Access the theme
+  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const location = useLocation();
@@ -41,7 +41,6 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  // Use theme colors
   const activeColor = theme.palette.primary.main;
   const circleColor = theme.palette.background.paper;
   const borderColor = activeColor;

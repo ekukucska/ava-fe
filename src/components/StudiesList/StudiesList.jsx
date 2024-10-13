@@ -186,19 +186,21 @@ const StudiesList = ({ studies, showPercentage }) => {
                 showPercentage={showPercentage}
               />
 
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  padding: '2rem',
-                }}
-              >
-                <ArrowForwardIosIcon
-                  color="secondary"
-                  sx={{ width: '1.5rem', height: 'auto' }}
-                />
-              </Box>
+              {!compareMultipleStudies && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                  }}
+                >
+                  <ArrowForwardIosIcon
+                    color="secondary"
+                    sx={{ width: '1.5rem', height: 'auto' }}
+                  />
+                </Box>
+              )}
             </Box>
 
             <Box

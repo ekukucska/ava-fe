@@ -7,24 +7,31 @@ function CustomButton({
   text,
   startIcon,
   endIcon,
+  sx = {},
   ...props
 }) {
+  // Default styles
+  const defaultSx = {
+    height: '2rem',
+    borderRadius: '50px',
+    textTransform: 'none',
+    padding: '0 16px',
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    fontFamily: 'Nunito, sans-serif',
+    whiteSpace: 'nowrap',
+  };
+
+  // Merging default styles with the sx prop passed in using the spread operator
+  const combinedSx = { ...defaultSx, ...sx };
+
   return (
     <Button
       variant={variant}
       color={color}
       startIcon={startIcon}
       endIcon={endIcon}
-      sx={{
-        height: '2rem',
-        borderRadius: '50px',
-        textTransform: 'none',
-        padding: '0 16px',
-        fontSize: '0.875rem',
-        fontWeight: 600,
-        fontFamily: 'Nunito, sans-serif',
-        whiteSpace: 'nowrap',
-      }}
+      sx={combinedSx}
       {...props}
     >
       {text}
@@ -38,6 +45,7 @@ CustomButton.propTypes = {
   text: PropTypes.string,
   startIcon: PropTypes.node,
   endIcon: PropTypes.node,
+  sx: PropTypes.object,
 };
 
 export default CustomButton;
