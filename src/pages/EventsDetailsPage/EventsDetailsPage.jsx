@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import StudiesContext from '../../state/StudiesContext';
 import EventTypesContext from '../../state/EventsTypesContext';
@@ -6,8 +7,20 @@ import MainContentContainer from '../../components/MainContentContainer/MainCont
 import EventsTypesHeader from '../../components/EventsTypesHeader/EventsTypesHeader';
 
 function EventsDetailsPage() {
+  const location = useLocation();
   const { selectedStudies } = useContext(StudiesContext);
-  const { selectedEventsTypes } = useContext(EventTypesContext);
+  const { selectedEventsTypes, setSelectedEventsTypes } =
+    useContext(EventTypesContext);
+
+  const resetSelectedEventsTypes = () => {
+    setSelectedEventsTypes([]);
+  };
+
+  useEffect(() => {
+    return () => {
+      resetSelectedEventsTypes();
+    };
+  }, [location]);
 
   return (
     <>
