@@ -42,9 +42,27 @@ const colors = {
     contrastText: '#ffffff',
   },
   ava_light_blue: {
-    main: '#e6f0fa',
-    light: '#e6f0fa',
-    dark: '#e6f0fa',
+    main: '#e0ecf9',
+    light: '#e0ecf9',
+    dark: '#e0ecf9',
+    contrastText: '#ffffff',
+  },
+  ava_light_blue_two: {
+    main: '#f2f7fc',
+    light: '#f2f7fc',
+    dark: '#f2f7fc',
+    contrastText: '#ffffff',
+  },
+  ava_grey: {
+    main: '#d9dde7',
+    light: '#d9dde7',
+    dark: '#d9dde7',
+    contrastText: '#ffffff',
+  },
+  ava_grey_two: {
+    main: '#fe6e6e6',
+    light: '#fe6e6e6',
+    dark: '#fe6e6e6',
     contrastText: '#ffffff',
   },
   ava_dark_grey: {

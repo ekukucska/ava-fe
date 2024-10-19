@@ -7,12 +7,14 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Checkbox from '@mui/material/Checkbox';
+import { useTheme } from '@mui/material/styles';
 import EventsTypesList from '../../components/EventsTypesList/EventsTypesList';
 import formatISODateToDayMonth from '../../utils/transformers/formatISODateToDayMonth';
 import StudiesContext from '../../state/StudiesContext';
 
 const StudiesList = ({ studies, showPercentage }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const { selectedStudies, setSelectedStudies, compareMultipleStudies } =
     useContext(StudiesContext);
 
@@ -20,6 +22,8 @@ const StudiesList = ({ studies, showPercentage }) => {
     if (!compareMultipleStudies) {
       setSelectedStudies([]);
     }
+
+    console.log('StudiesList: use Effect: selectedStudies:', selectedStudies); // TODO: Remove after testing
   }, [compareMultipleStudies, setSelectedStudies]);
 
   const handleOnClickStudyCard = (event, studyName) => {
@@ -66,11 +70,11 @@ const StudiesList = ({ studies, showPercentage }) => {
               flexDirection: 'column',
               width: '100%',
               maxWidth: '1500px',
-              border: '1px solid #e6f0fa',
+              border: `1px solid ${theme.palette.ava_light_blue.main}`,
               borderRadius: '0.25rem',
               cursor: 'pointer',
               '&:hover': {
-                backgroundColor: '#E0ECF9',
+                backgroundColor: `${theme.palette.ava_light_blue_two.main}`,
               },
             }}
             onClick={(event) => handleOnClickStudyCard(event, study.studyName)} // Pass studyName to the handler
@@ -144,7 +148,7 @@ const StudiesList = ({ studies, showPercentage }) => {
               <Divider
                 orientation="vertical"
                 flexItem
-                sx={{ borderColor: '#e6f0fa' }}
+                sx={{ borderColor: `${theme.palette.ava_light_blue.main}` }}
               />
 
               <Box
@@ -164,7 +168,7 @@ const StudiesList = ({ studies, showPercentage }) => {
               <Divider
                 orientation="vertical"
                 flexItem
-                sx={{ borderColor: '#e6f0fa' }}
+                sx={{ borderColor: `${theme.palette.ava_light_blue.main}` }}
               />
 
               <Box
@@ -212,15 +216,15 @@ const StudiesList = ({ studies, showPercentage }) => {
                 padding: '1rem',
                 alignContent: 'flex-start',
                 justifyContent: 'flex-start',
-                borderTop: '1px solid #e6f0fa',
+                borderTop: `1px solid ${theme.palette.ava_light_blue.main}`,
               }}
             >
               <Typography variant="body2">Status:</Typography>
               <Chip
                 label="Not validated"
                 sx={{
-                  backgroundColor: '#e6e6e6',
-                  color: 'black',
+                  backgroundColor: `${theme.palette.ava_grey_two.main}`,
+                  color: `${theme.palette.secondary.main}`,
                   borderRadius: '0.5rem',
                 }}
               />

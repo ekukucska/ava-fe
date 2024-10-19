@@ -25,6 +25,8 @@ const EventsTypesList = ({ studyData, showPercentage }) => {
               number={event.count}
               title={eventTypeData.name}
               color={eventTypeData.color}
+              isSelectable={false}
+              isInteractive={true}
             />
             {showPercentage && (
               <Typography

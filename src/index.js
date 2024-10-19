@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './style/theme';
 import { StudiesContextProvider } from './state/StudiesContext';
+import { EventTypesContextProvider } from './state/EventsTypesContext';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,9 +16,11 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <StudiesContextProvider>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
+        <EventTypesContextProvider>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </EventTypesContextProvider>
       </StudiesContextProvider>
     </ThemeProvider>
   </React.StrictMode>
