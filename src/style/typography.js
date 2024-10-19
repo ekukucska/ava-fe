@@ -38,7 +38,7 @@ const typography = {
   body1: {
     fontSize: '1rem', // 16px
     fontWeight: 400,
-    color: colors.secondary.main,
+    color: colors.primary.main,
   },
   body2: {
     fontSize: '1rem', // 16px

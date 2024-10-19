@@ -1,10 +1,14 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { useTheme } from '@mui/material/styles';
 import StudiesContext from '../../state/StudiesContext';
 import CustomButton from '../CustomButton/CustomButton';
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const theme = useTheme();
   const { selectedStudies, setSelectedStudies, setCompareMultipleStudies } =
     useContext(StudiesContext);
 
@@ -15,6 +19,9 @@ const Footer = () => {
 
   const handleOnClickCheckEvents = () => {
     console.log('StudiesFooter: handleOnClickCheckEvents: Check events'); // TODO: Remove with propper logic
+
+    setCompareMultipleStudies(false);
+    navigate('/events/events-details');
   };
 
   return (
@@ -25,11 +32,12 @@ const Footer = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#f2f7fc',
+        backgroundColor: `${theme.palette.ava_light_blue_two.main}`,
         position: 'fixed',
         bottom: 0,
         padding: '16px 40px',
         boxSizing: 'border-box',
+        borderTop: `2px solid ${theme.palette.ava_light_blue.main}`,
       }}
     >
       {/* Left Div */}
@@ -58,7 +66,9 @@ const Footer = () => {
             Select multiple studies
           </Typography>
           <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
-            No studies selected
+            {selectedStudies.length !== 0
+              ? selectedStudies.length
+              : 'No studies selected'}
           </Typography>
         </Box>
 

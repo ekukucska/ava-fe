@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-const EventTypeBox = ({ number, title, color }) => {
+const EventTypeBox = ({
+  number,
+  title,
+  color,
+  isSelectable = false,
+  isSelected = false,
+  isInteractive = false,
+}) => {
+  const theme = useTheme();
+  const backgroundColor = isSelectable
+    ? isSelected
+      ? `${theme.palette.ava_light_blue.main}`
+      : 'white'
+    : 'inherit';
+
   return (
     <>
       <Box
-        key={title}
         sx={{
           width: '4.125rem',
           height: '4.625rem',
@@ -15,11 +29,18 @@ const EventTypeBox = ({ number, title, color }) => {
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: '0.438rem',
-          border: '1px solid #e6f0fa',
+          border: `1px solid ${theme.palette.ava_light_blue.main}`,
+          backgroundColor: backgroundColor,
+          cursor: isInteractive ? 'pointer' : 'default',
           padding: '0.5rem',
           boxSizing: 'border-box',
           gap: '3.2px',
         }}
+        onClick={
+          isSelectable
+            ? () => console.log(`EventTypeBox: Clicked: ${title}`)
+            : undefined
+        }
       >
         <Box
           sx={{
@@ -51,6 +72,9 @@ EventTypeBox.propTypes = {
   number: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
+  isSelectable: PropTypes.bool,
+  isSelected: PropTypes.bool,
+  isInteractive: PropTypes.bool,
 };
 
 export default EventTypeBox;

@@ -62,17 +62,17 @@ function ResponsiveAppBar() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#ffffff',
+        backgroundColor: `${theme.palette.white}`,
         minHeight: '4rem',
         boxShadow: 'none',
-        borderBottom: '1px solid #e0ecf9',
+        borderBottom: `1px solid ${theme.palette.ava_light_blue.main}`,
       }}
     >
       <Container
         maxWidth="xl"
         sx={{
           boxShadow: 'none',
-          borderBottom: '1px solid #e0ecf9',
+          borderBottom: `1px solid ${theme.palette.ava_light_blue.main}`,
         }}
       >
         <Toolbar disableGutters>

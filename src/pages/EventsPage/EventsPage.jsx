@@ -13,6 +13,7 @@ function EventsPage() {
   const {
     compareMultipleStudies,
     setCompareMultipleStudies,
+    selectedStudies,
     setSelectedStudies,
   } = useContext(StudiesContext);
 
@@ -26,6 +27,7 @@ function EventsPage() {
   };
 
   console.log('EventsPage: compareMultipleStudies:', compareMultipleStudies); // TODO: Remove after testing
+  console.log('EventsPage: selectedStudies:', selectedStudies); // TODO: Remove after testing
 
   return (
     <>
