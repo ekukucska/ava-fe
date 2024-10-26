@@ -112,7 +112,7 @@ function ResponsiveAppBar() {
               color: theme.palette.secondary.main,
             }}
           >
-            Analytics Visualization App
+            Data Visualization App
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -195,7 +195,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            AVA
+            DataSense
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
