@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import StudiesContext from '../../state/StudiesContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import MainContentContainer from '../../components/MainContentContainer/MainCont
 import CustomButton from '../../components/CustomButton/CustomButton';
 import StudiesList from '../../components/StudiesList/StudiesList';
 import StudiesFooter from '../../components/StudiesFooter/StudiesFooter';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { studies } from '../../mockData/mockStudies';
 
 function EventsPage() {
@@ -16,6 +17,15 @@ function EventsPage() {
     selectedStudies,
     setSelectedStudies,
   } = useContext(StudiesContext);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data fetching
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Replace this with actual data fetching logic
+  }, []);
 
   const handleOnClickCompareMultipleStudies = () => {
     if (compareMultipleStudies) {
@@ -28,6 +38,10 @@ function EventsPage() {
 
   console.log('EventsPage: compareMultipleStudies:', compareMultipleStudies); // TODO: Remove after testing
   console.log('EventsPage: selectedStudies:', selectedStudies); // TODO: Remove after testing
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
