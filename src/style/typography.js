@@ -8,6 +8,11 @@ const typography = {
     fontWeight: 400,
     color: colors.primary.main,
   },
+  subtitle2: {
+    fontSize: '2rem', // 32px
+    fontWeight: 400,
+    color: colors.primary.main,
+  },
   h1: {
     fontSize: '1.25rem', // 20px
     fontWeight: 400,
@@ -50,7 +55,6 @@ const typography = {
     fontWeight: 400,
     color: colors.secondary.main,
   },
-  // Add more typography settings here
 };
 
 export default typography;
