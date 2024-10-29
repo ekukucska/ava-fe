@@ -65,6 +65,12 @@ const colors = {
     dark: '#fe6e6e6',
     contrastText: '#ffffff',
   },
+  ava_grey_three: {
+    main: '#bfbfbf',
+    light: '#bfbfbf',
+    dark: '#bfbfbf',
+    contrastText: '#ffffff',
+  },
   ava_dark_grey: {
     main: '#333333',
     light: '#333333',
