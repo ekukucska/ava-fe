@@ -12,6 +12,9 @@ function StudiesPage() {
       .then((response) => response.text())
       .then((data) => {
         setMessage(data);
+        if (data) {
+          setLoading(false);
+        }
       })
       .catch((error) => {
         console.error('Error:', error);

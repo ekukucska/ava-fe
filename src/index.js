@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './style/theme';
 import { StudiesContextProvider } from './state/StudiesContext';
+import { SubjectsContextProvider } from './state/SubjectsContext';
 import { EventTypesContextProvider } from './state/EventsTypesContext';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
@@ -17,9 +18,11 @@ root.render(
       <CssBaseline />
       <StudiesContextProvider>
         <EventTypesContextProvider>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
+          <SubjectsContextProvider>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </SubjectsContextProvider>
         </EventTypesContextProvider>
       </StudiesContextProvider>
     </ThemeProvider>
