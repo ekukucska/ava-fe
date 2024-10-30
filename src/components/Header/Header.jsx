@@ -9,41 +9,30 @@ import {
   Menu,
   Container,
   Button,
-  Tooltip,
   MenuItem,
   Divider,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
 import { useTheme } from '@mui/material/styles';
+import SignOutModal from '../SignOutModal/SignOutModal';
 
 const pages = ['Studies', 'Subjects', 'Events'];
-const settings = ['Profile', 'Account', 'Settings', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
   const theme = useTheme();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [openSignOutModal, setOpenSignOutModal] = useState(false);
   const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const activeColor = theme.palette.primary.main;
-  const circleColor = theme.palette.background.paper;
-  const borderColor = activeColor;
 
   const isActive = (page) => {
     if (location.pathname === '/' && page.toLowerCase() === 'studies') {
@@ -58,11 +47,24 @@ function ResponsiveAppBar() {
     return location.pathname === `/${page.toLowerCase()}`;
   };
 
+  const handleSignOutHeaderButtonClick = () => {
+    setOpenSignOutModal(true);
+  };
+
+  const handleCloseSignOutModal = () => {
+    setOpenSignOutModal(false);
+  };
+
+  const handleSignOutModalButtonClick = () => {
+    setOpenSignOutModal(false);
+    // Sign out user  // TODO: Replace with actual sign-out logic
+  };
+
   return (
     <AppBar
       position="static"
       sx={{
-        backgroundColor: `${theme.palette.white}`,
+        backgroundColor: theme.palette.white,
         minHeight: '4rem',
         boxShadow: 'none',
         borderBottom: `1px solid ${theme.palette.ava_light_blue.main}`,
@@ -197,7 +199,13 @@ function ResponsiveAppBar() {
           >
             DataSense
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+              paddingX: '8rem',
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -221,48 +229,30 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    backgroundColor: circleColor,
-                    border: `2px solid ${borderColor}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <PersonIcon sx={{ color: activeColor, fontSize: 30 }} />
-                </Box>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+          <IconButton onClick={handleSignOutHeaderButtonClick} sx={{ p: 0 }}>
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                backgroundColor: 'white',
+                border: `2px solid ${theme.palette.primary.main}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <LogoutIcon
+                sx={{ color: theme.palette.primary.main, fontSize: 25 }}
+              />
+            </Box>
+          </IconButton>
+
+          <SignOutModal
+            open={openSignOutModal}
+            onClose={handleCloseSignOutModal}
+            onSignOut={handleSignOutModalButtonClick}
+          />
         </Toolbar>
       </Container>
     </AppBar>
