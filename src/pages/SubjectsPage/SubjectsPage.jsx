@@ -8,6 +8,8 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  Card,
+  CardContent,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import HeightIcon from '@mui/icons-material/Height';
@@ -81,8 +83,8 @@ const SubjectsPage = () => {
   return (
     <MainContentContainer>
       <Typography variant="subtitle1" sx={{ marginBottom: '1rem' }}>
-        Please select the demographic data on which you would like to perform a
-        pattern search below
+        Adjust the filters to analyze demographic trends in the subjects&apos;
+        data.
       </Typography>
 
       <Box
@@ -315,8 +317,18 @@ const SubjectsPage = () => {
         </Box>
       </Box>
 
-      <Typography variant="subtitle1">Subjects Data Plots</Typography>
-      <SubjectsPlot />
+      <Card
+        sx={{
+          boxShadow: '0px 2px 4px 0px #00000033',
+          width: '100%',
+          marginBottom: '3.5rem',
+          borderRadius: '4px 0px 0px 0px',
+        }}
+      >
+        <CardContent>
+          <SubjectsPlot />
+        </CardContent>
+      </Card>
     </MainContentContainer>
   );
 };
