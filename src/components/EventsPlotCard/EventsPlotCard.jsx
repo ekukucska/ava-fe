@@ -10,7 +10,7 @@ import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
 import createOrderedSelectedEventTypes from '../../utils/constructors/createOrderedSelectedEventTypes';
 import { useTheme } from '@mui/material/styles';
 
-const StudyCard = () => {
+const EventsPlotCard = () => {
   const { selectedEventsTypes } = useContext(EventTypesContext);
   const [open, setOpen] = useState(false);
   const [reset, setReset] = useState(false);
@@ -178,4 +178,4 @@ const StudyCard = () => {
   );
 };
 
-export default StudyCard;
+export default EventsPlotCard;
