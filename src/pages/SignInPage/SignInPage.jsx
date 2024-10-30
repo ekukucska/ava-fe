@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
+import Alert from '@mui/material/Alert';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import LoginContentContainer from '../../components/LoginContentContainer/LoginContentContainer';
 
@@ -14,6 +15,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [submitError, setSubmitError] = useState(false); // New state to track form submission error
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,6 +61,10 @@ const SignInPage = () => {
     if (isEmailValid && isPasswordValid) {
       console.log('Sign in button clicked', { email, password }); // TODO: Remove after testing
       // TODO: Add sign-in logic
+      // Simulate incorrect credentials for demo purposes // TODO: Replace after implementing auth logic
+      setSubmitError(true); // Set error state when credentials are invalid
+    } else {
+      setSubmitError(true); // Set error if validation fails
     }
   };
 
@@ -86,8 +92,21 @@ const SignInPage = () => {
             Welcome
           </Typography>
           <Typography variant="body2" sx={{ marginBottom: '3.5rem' }}>
-            Welcome to the Automatic Study Analyzer of Roche Diabetes.
+            Discover Insights with <strong>DataSense</strong>, your gateway to
+            advanced data visualization
           </Typography>
+
+          {/* TODO: Replace later with proper logic & conditions for authentication */}
+          {/* Error alert shown if form submission fails */}
+          {submitError && (
+            <Alert
+              severity="error"
+              icon={false}
+              sx={{ marginBottom: '1.5rem' }}
+            >
+              Incorrect email or password. Please try again.
+            </Alert>
+          )}
 
           <Box
             sx={{
