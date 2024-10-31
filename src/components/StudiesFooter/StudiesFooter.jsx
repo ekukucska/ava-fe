@@ -30,7 +30,7 @@ const Footer = () => {
         width: '100vw',
         height: '80px',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: { xs: 'right', md: 'space-between' },
         alignItems: 'center',
         backgroundColor: `${theme.palette.ava_light_blue_two.main}`,
         position: 'fixed',
@@ -43,11 +43,10 @@ const Footer = () => {
       {/* Left Div */}
       <Box
         sx={{
-          minWidth: '910px',
           width: '100%',
-          display: 'flex',
+          display: { xs: 'none', md: 'flex' },
           alignItems: 'center',
-          gap: '96px',
+          gap: { xs: '0', md: '96px' },
         }}
       >
         {/* Left-side of the Left Div */}

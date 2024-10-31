@@ -57,8 +57,6 @@ const StudiesList = ({ studies, showPercentage }) => {
     }
   };
 
-  console.log('StudiesList: selectedStudies:', selectedStudies); // TODO: Remove after testing
-
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -83,8 +81,8 @@ const StudiesList = ({ studies, showPercentage }) => {
               sx={{
                 width: '100%',
                 display: 'flex',
-                flexDirection: 'row',
-                gap: '2rem',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: '1rem',
                 padding: '16px',
                 boxSizing: 'border-box',
                 justifyContent: 'space-between',
@@ -118,6 +116,7 @@ const StudiesList = ({ studies, showPercentage }) => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
+                  alignItems: { xs: 'center', md: 'flex-start' },
                 }}
               >
                 <Typography variant="h1">{`Study: ${study.studyName}`}</Typography>
@@ -209,7 +208,7 @@ const StudiesList = ({ studies, showPercentage }) => {
 
             <Box
               sx={{
-                display: 'flex',
+                display: { xs: 'none', md: 'flex' },
                 flexDirection: 'row',
                 width: '100%',
                 gap: '1rem',

@@ -11,6 +11,7 @@ const EventsTypesList = ({ studyData, showPercentage }) => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '0.5rem',
+        justifyContent: { xs: 'center', md: 'flex-start' },
       }}
     >
       {studyData.events.map((event) => {
