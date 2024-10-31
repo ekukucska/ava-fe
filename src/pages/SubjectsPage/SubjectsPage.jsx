@@ -120,6 +120,7 @@ const SubjectsPage = () => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
+            flexDirection: { xs: 'column', md: 'row' },
             marginBottom: '1rem',
           }}
         >
@@ -132,6 +133,7 @@ const SubjectsPage = () => {
               alignItems: 'flex-start',
               gap: '1rem',
               paddingLeft: '2rem',
+              marginBottom: { xs: '1rem', md: '0' },
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -175,6 +177,7 @@ const SubjectsPage = () => {
               alignItems: 'flex-start',
               gap: '1rem',
               paddingLeft: '2rem',
+              marginBottom: { xs: '1rem', md: '0' },
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -218,6 +221,7 @@ const SubjectsPage = () => {
               alignItems: 'flex-start',
               gap: '1rem',
               paddingLeft: '2rem',
+              marginBottom: { xs: '1rem', md: '0' },
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -283,6 +287,7 @@ const SubjectsPage = () => {
               alignItems: 'flex-start',
               gap: '1rem',
               paddingLeft: '2rem',
+              marginBottom: { xs: '1rem', md: '0' },
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
