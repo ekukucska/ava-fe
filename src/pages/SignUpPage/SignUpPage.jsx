@@ -4,6 +4,7 @@ import LoginContentContainer from '../../components/LoginContentContainer/LoginC
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Divider from '@mui/material/Divider';
 
@@ -16,6 +17,8 @@ const SignUpPage = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+  const [accountCreated, setAccountCreated] = useState(false);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -94,8 +97,9 @@ const SignUpPage = () => {
       console.log('Form is valid, proceeding with submission', {
         email,
         password,
-      });
+      }); // TODO: Remove after adding account creation logic
       // TODO: Add account creation logic
+      setAccountCreated(true); // TODO: put into success callback of account creation // maybe add some errro message for errro case
     }
   };
 
@@ -132,141 +136,155 @@ const SignUpPage = () => {
         >
           Sign in here
         </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            marginBottom: '2rem',
-            width: '100%',
-          }}
-        >
-          <TextField
-            label="Email"
-            placeholder="Email"
-            variant="outlined"
-            fullWidth
-            value={email}
-            onChange={handleEmailChange}
-            error={!!emailError}
-            helperText={emailError}
-            InputProps={{
-              style: { borderRadius: '0.5rem' },
-            }}
+        {!accountCreated ? (
+          <Box
             sx={{
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'primary.main',
-              },
-              '& .MuiInputBase-input::placeholder': {
-                color: 'secondary.main',
-                opacity: 1,
-              },
-              '& .MuiInputBase-input:focus::placeholder': {
-                opacity: 0,
-                transition: 'opacity 0.2s ease-out',
-              },
-              '& .MuiInputLabel-root': {
-                color: 'secondary.main',
-              },
-              '& .MuiInputBase-root': {
-                height: '3rem',
-              },
-              '& .MuiOutlinedInput-input': {
-                padding: '0 14px',
-                height: '3rem',
-                boxSizing: 'border-box',
-              },
-              '& .MuiFormHelperText-root': {
-                color: 'error.main',
-                marginLeft: '0',
-              },
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              marginBottom: '2rem',
+              width: '100%',
             }}
-          />
-          <TextField
-            label="Password"
-            placeholder="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={password}
-            onChange={handlePasswordChange}
-            error={!!passwordError}
-            helperText={passwordError}
-            InputProps={{
-              style: { borderRadius: '0.5rem' },
-            }}
+          >
+            <TextField
+              label="Email"
+              placeholder="Email"
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={handleEmailChange}
+              error={!!emailError}
+              helperText={emailError}
+              InputProps={{
+                style: { borderRadius: '0.5rem' },
+              }}
+              sx={{
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'primary.main',
+                },
+                '& .MuiInputBase-input::placeholder': {
+                  color: 'secondary.main',
+                  opacity: 1,
+                },
+                '& .MuiInputBase-input:focus::placeholder': {
+                  opacity: 0,
+                  transition: 'opacity 0.2s ease-out',
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'secondary.main',
+                },
+                '& .MuiInputBase-root': {
+                  height: '3rem',
+                },
+                '& .MuiOutlinedInput-input': {
+                  padding: '0 14px',
+                  height: '3rem',
+                  boxSizing: 'border-box',
+                },
+                '& .MuiFormHelperText-root': {
+                  color: 'error.main',
+                  marginLeft: '0',
+                },
+              }}
+            />
+            <TextField
+              label="Password"
+              placeholder="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={handlePasswordChange}
+              error={!!passwordError}
+              helperText={passwordError}
+              InputProps={{
+                style: { borderRadius: '0.5rem' },
+              }}
+              sx={{
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'primary.main',
+                },
+                '& .MuiInputBase-input::placeholder': {
+                  color: 'secondary.main',
+                  opacity: 1,
+                },
+                '& .MuiInputBase-input:focus::placeholder': {
+                  opacity: 0,
+                  transition: 'opacity 0.2s ease-out',
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'secondary.main',
+                },
+                '& .MuiInputBase-root': {
+                  height: '3rem',
+                },
+                '& .MuiOutlinedInput-input': {
+                  padding: '0 14px',
+                  height: '3rem',
+                  boxSizing: 'border-box',
+                },
+                '& .MuiFormHelperText-root': {
+                  color: 'error.main',
+                  marginLeft: '0',
+                },
+              }}
+            />
+            <TextField
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              error={!!confirmPasswordError}
+              helperText={confirmPasswordError}
+              InputProps={{
+                style: { borderRadius: '0.5rem' },
+              }}
+              sx={{
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'primary.main',
+                },
+                '& .MuiInputBase-input::placeholder': {
+                  color: 'secondary.main',
+                  opacity: 1,
+                },
+                '& .MuiInputBase-input:focus::placeholder': {
+                  opacity: 0,
+                  transition: 'opacity 0.2s ease-out',
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'secondary.main',
+                },
+                '& .MuiInputBase-root': {
+                  height: '3rem',
+                },
+                '& .MuiOutlinedInput-input': {
+                  padding: '0 14px',
+                  height: '3rem',
+                  boxSizing: 'border-box',
+                },
+                '& .MuiFormHelperText-root': {
+                  color: 'error.main',
+                  marginLeft: '0',
+                },
+              }}
+            />
+          </Box>
+        ) : (
+          <Typography
+            variant="body2"
             sx={{
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'primary.main',
-              },
-              '& .MuiInputBase-input::placeholder': {
-                color: 'secondary.main',
-                opacity: 1,
-              },
-              '& .MuiInputBase-input:focus::placeholder': {
-                opacity: 0,
-                transition: 'opacity 0.2s ease-out',
-              },
-              '& .MuiInputLabel-root': {
-                color: 'secondary.main',
-              },
-              '& .MuiInputBase-root': {
-                height: '3rem',
-              },
-              '& .MuiOutlinedInput-input': {
-                padding: '0 14px',
-                height: '3rem',
-                boxSizing: 'border-box',
-              },
-              '& .MuiFormHelperText-root': {
-                color: 'error.main',
-                marginLeft: '0',
-              },
+              color: 'secondary.main',
+              cursor: 'pointer',
+              marginBottom: '3.5rem',
             }}
-          />
-          <TextField
-            label="Confirm Password"
-            placeholder="Confirm Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            error={!!confirmPasswordError}
-            helperText={confirmPasswordError}
-            InputProps={{
-              style: { borderRadius: '0.5rem' },
-            }}
-            sx={{
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'primary.main',
-              },
-              '& .MuiInputBase-input::placeholder': {
-                color: 'secondary.main',
-                opacity: 1,
-              },
-              '& .MuiInputBase-input:focus::placeholder': {
-                opacity: 0,
-                transition: 'opacity 0.2s ease-out',
-              },
-              '& .MuiInputLabel-root': {
-                color: 'secondary.main',
-              },
-              '& .MuiInputBase-root': {
-                height: '3rem',
-              },
-              '& .MuiOutlinedInput-input': {
-                padding: '0 14px',
-                height: '3rem',
-                boxSizing: 'border-box',
-              },
-              '& .MuiFormHelperText-root': {
-                color: 'error.main',
-                marginLeft: '0',
-              },
-            }}
-          />
-        </Box>
+            onClick={handleNavigateToSignIn}
+          >
+            Your account has been created successfully! Click bellow to sign in.
+          </Typography>
+        )}
         <Box
           sx={{
             display: 'flex',
@@ -276,12 +294,22 @@ const SignUpPage = () => {
             width: '100%',
           }}
         >
-          <CustomButton
-            text="Request account"
-            variant="contained"
-            onClick={handleRequestAccount}
-            sx={{ height: '40px' }}
-          />
+          {!accountCreated ? (
+            <CustomButton
+              text="Request account"
+              variant="contained"
+              onClick={handleRequestAccount}
+              sx={{ height: '40px' }}
+            />
+          ) : (
+            <CustomButton
+              text="Back to home"
+              variant="outlined"
+              startIcon={<KeyboardBackspaceIcon />}
+              onClick={handleNavigateToSignIn}
+              sx={{ height: '40px' }}
+            />
+          )}
         </Box>
         <Divider sx={{ borderColor: '#e0ecf9', marginBottom: '1.5rem' }} />
         <Typography variant="h5">

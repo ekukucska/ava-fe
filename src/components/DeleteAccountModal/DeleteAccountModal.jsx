@@ -12,26 +12,27 @@ import { useTheme } from '@emotion/react';
 import ModalsContext from '../../state/ModalsContext';
 import CustomButton from '../CustomButton/CustomButton';
 
-function SignOutModal() {
+function DeleteAccountModal() {
   const theme = useTheme();
 
-  const { openSignOutModal, setOpenSignOutModal } = useContext(ModalsContext);
+  const { openDeleteAccountModal, setOpenDeleteAccountModal } =
+    useContext(ModalsContext);
 
   const onClose = () => {
-    setOpenSignOutModal(false);
+    setOpenDeleteAccountModal(false);
   };
 
   const onCancel = () => {
-    setOpenSignOutModal(false);
+    setOpenDeleteAccountModal(false);
   };
 
-  const onSignOut = () => {
-    setOpenSignOutModal(false);
+  const onDelete = () => {
+    setOpenDeleteAccountModal(false);
   };
 
   return (
     <Dialog
-      open={openSignOutModal}
+      open={openDeleteAccountModal}
       onClose={onClose}
       aria-labelledby="signout-dialog-title"
       sx={{
@@ -56,7 +57,7 @@ function SignOutModal() {
           padding: '24px',
         }}
       >
-        Sign out
+        Delete Account
       </DialogTitle>
       <Divider
         sx={{
@@ -69,7 +70,7 @@ function SignOutModal() {
         sx={{ display: 'flex', justifyContent: 'flex-start', padding: '24px' }}
       >
         <Typography variant="body2" sx={{ justifyContent: 'flex-start' }}>
-          Are you sure you want to sign out?
+          Are you sure you want to delete your account?
         </Typography>
       </DialogContent>
 
@@ -89,20 +90,20 @@ function SignOutModal() {
           onClick={onCancel}
         />
         <CustomButton
-          text="Sign out"
+          text="Delete"
           variant="contained"
           sx={{ height: '40px', width: '118px' }}
-          onClick={onSignOut}
+          onClick={onDelete}
         />
       </DialogActions>
     </Dialog>
   );
 }
-SignOutModal.propTypes = {
+DeleteAccountModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSignOut: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
-export default SignOutModal;
+export default DeleteAccountModal;
