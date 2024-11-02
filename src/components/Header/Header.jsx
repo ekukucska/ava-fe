@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import {
   AppBar,
@@ -13,18 +13,23 @@ import {
   Divider,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import LogoutIcon from '@mui/icons-material/ExitToApp';
+import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/material/styles';
+import ModalsContext from '..//../state/ModalsContext';
+import ProfileMenuModal from '../ProfileMenuModal/ProfileMenuModal';
+import EditProfileModal from '../EditProfileModal/EditProfileModal';
+import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
 import SignOutModal from '../SignOutModal/SignOutModal';
 
 const pages = ['Studies', 'Subjects', 'Events'];
 
 function ResponsiveAppBar() {
   const theme = useTheme();
+  const location = useLocation();
+
+  const { setOpenProfileModal } = useContext(ModalsContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [openSignOutModal, setOpenSignOutModal] = useState(false);
-  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -47,17 +52,8 @@ function ResponsiveAppBar() {
     return location.pathname === `/${page.toLowerCase()}`;
   };
 
-  const handleSignOutHeaderButtonClick = () => {
-    setOpenSignOutModal(true);
-  };
-
-  const handleCloseSignOutModal = () => {
-    setOpenSignOutModal(false);
-  };
-
-  const handleSignOutModalButtonClick = () => {
-    setOpenSignOutModal(false);
-    // Sign out user  // TODO: Replace with actual sign-out logic
+  const handleProfileButtonClick = () => {
+    setOpenProfileModal(true);
   };
 
   return (
@@ -229,7 +225,7 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <IconButton onClick={handleSignOutHeaderButtonClick} sx={{ p: 0 }}>
+          <IconButton onClick={handleProfileButtonClick} sx={{ p: 0 }}>
             <Box
               sx={{
                 width: 40,
@@ -242,17 +238,16 @@ function ResponsiveAppBar() {
                 justifyContent: 'center',
               }}
             >
-              <LogoutIcon
+              <PersonIcon
                 sx={{ color: theme.palette.primary.main, fontSize: 25 }}
               />
             </Box>
           </IconButton>
 
-          <SignOutModal
-            open={openSignOutModal}
-            onClose={handleCloseSignOutModal}
-            onSignOut={handleSignOutModalButtonClick}
-          />
+          <ProfileMenuModal />
+          <EditProfileModal />
+          <DeleteAccountModal />
+          <SignOutModal />
         </Toolbar>
       </Container>
     </AppBar>
