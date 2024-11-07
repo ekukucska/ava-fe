@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import {
   AppBar,
@@ -15,7 +15,8 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import { useTheme } from '@mui/material/styles';
-import ModalsContext from '..//../state/ModalsContext';
+import ModalsContext from '../../state/ModalsContext';
+import userApiUtils from '../../utils/api/userApiUtils';
 import ProfileMenuModal from '../ProfileMenuModal/ProfileMenuModal';
 import EditProfileModal from '../EditProfileModal/EditProfileModal';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
@@ -26,10 +27,36 @@ const pages = ['Studies', 'Subjects', 'Events'];
 function ResponsiveAppBar() {
   const theme = useTheme();
   const location = useLocation();
-
   const { setOpenProfileModal } = useContext(ModalsContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('test@mail.com'); // TODO: Add actual email check logic
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = await userApiUtils.getUserByEmail(email);
+        if (user) {
+          setFirstName(user.firstName || '');
+          setLastName(user.lastName || '');
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    if (email) {
+      fetchUserData();
+    }
+  }, [email]);
+
+  // Determine what to display
+  const displayName =
+    firstName || lastName
+      ? `${firstName} ${lastName}`.trim()
+      : email || 'Researcher';
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -224,6 +251,11 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          <Typography
+            sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '2rem' }}
+          >
+            {displayName}
+          </Typography>
 
           <IconButton onClick={handleProfileButtonClick} sx={{ p: 0 }}>
             <Box

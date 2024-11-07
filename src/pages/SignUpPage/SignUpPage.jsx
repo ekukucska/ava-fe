@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Divider from '@mui/material/Divider';
+import userApiUtils from '../../utils/api/userApiUtils';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const SignUpPage = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const [accountCreated, setAccountCreated] = useState(false);
+  const [creationError, setCreationError] = useState('');
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -87,19 +89,22 @@ const SignUpPage = () => {
     validatePasswordMatch(password, newConfirmPassword);
   };
 
-  const handleRequestAccount = (event) => {
+  const handleRequestAccount = async (event) => {
     event.preventDefault();
+
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
     const doPasswordsMatch = validatePasswordMatch(password, confirmPassword);
 
     if (isEmailValid && isPasswordValid && doPasswordsMatch) {
-      console.log('Form is valid, proceeding with submission', {
-        email,
-        password,
-      }); // TODO: Remove after adding account creation logic
-      // TODO: Add account creation logic
-      setAccountCreated(true); // TODO: put into success callback of account creation // maybe add some errro message for errro case
+      try {
+        await userApiUtils.createUser(email, password);
+        setAccountCreated(true);
+        setCreationError(''); // Clear any previous error
+      } catch (error) {
+        console.error('Error creating account:', error.message);
+        setCreationError('Failed to create account. Please try again.'); // Set error message
+      }
     }
   };
 
@@ -136,6 +141,15 @@ const SignUpPage = () => {
         >
           Sign in here
         </Typography>
+        {creationError && (
+          <Typography
+            variant="body2"
+            color="error"
+            sx={{ marginBottom: '2rem' }}
+          >
+            {creationError}
+          </Typography>
+        )}
         {!accountCreated ? (
           <Box
             sx={{

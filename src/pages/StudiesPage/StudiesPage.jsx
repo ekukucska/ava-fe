@@ -9,15 +9,15 @@ const cardData = [
   {
     title: 'Total Studies',
     number: 10,
-    additionalText: 'Year to date: 1',
+    additionalText: 'All studies',
   },
   {
     title: 'Total Participants',
     number: 20,
-    additionalText: 'Year to date: 7',
+    additionalText: 'All studies',
   },
-  { title: 'Total Events', number: 40, additionalText: 'Year to date: 18' },
-  { title: 'Total Anomalies', number: 30, additionalText: 'Year to date: 11' },
+  { title: 'Total Events', number: 40, additionalText: 'All studies' },
+  { title: 'Total Anomalies', number: 30, additionalText: 'All studies' },
 ];
 
 function StudiesPage() {
