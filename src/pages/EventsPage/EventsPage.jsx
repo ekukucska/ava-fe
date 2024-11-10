@@ -54,8 +54,10 @@ function EventsPage() {
   }, [studiesData, subjectsData, setStudiesData, setSubjectsData]);
 
   useEffect(() => {
-    const studiesListValue = studiesData.map((study) => study.name);
-    setStudiesList(studiesListValue);
+    if (studiesList.length === 0) {
+      const studiesListValue = studiesData.map((study) => study.name);
+      setStudiesList(studiesListValue);
+    }
   }, [studiesData]);
 
   useEffect(() => {
