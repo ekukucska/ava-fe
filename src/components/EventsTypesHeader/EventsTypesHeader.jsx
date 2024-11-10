@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Divider } from '@mui/material';
-import PushPinIcon from '@mui/icons-material/PushPin';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTheme } from '@mui/material/styles';
 import StudiesContext from '../../state/StudiesContext';
@@ -25,8 +25,12 @@ function EventsTypesHeader() {
     selectedStudiesTotalCounts,
   } = useContext(StudiesContext);
   const { subjectsData } = useContext(SubjectsContext);
-  const { selectedEventsTypes, setSelectedEventsTypes } =
-    useContext(EventsTypesContext);
+  const {
+    selectedEventsTypes,
+    setSelectedEventsTypes,
+    showAllSubjects,
+    setShowAllSubjects,
+  } = useContext(EventsTypesContext);
 
   const [studiesListTotalCounts, setStudiesListTotalCounts] = useState({});
   const [mappedEvents, setMappedEvents] = useState([]);
@@ -62,10 +66,8 @@ function EventsTypesHeader() {
     navigate('/events');
   };
 
-  const handleOnClickPinSelection = () => {
-    console.log(
-      'EventsTypesHeader: handleOnClickPinSelection: Pin this selection'
-    ); // TODO: Replace with proper logic
+  const handleOnClickShowAllSubjects = () => {
+    setShowAllSubjects((prevShowAllSubjects) => !prevShowAllSubjects);
   };
 
   const handleOnClickEventTypeBox = (type) => {
@@ -193,9 +195,9 @@ function EventsTypesHeader() {
       </Box>
 
       <CustomButton
-        text="Pin this selection"
-        variant="outlined"
-        startIcon={<PushPinIcon />}
+        text="Show all subjects"
+        variant={showAllSubjects ? 'contained' : 'outlined'}
+        startIcon={<PersonSearchIcon />}
         sx={{
           height: '3rem',
           padding: { xs: '0 16px', sm: '0 32px' },
@@ -203,7 +205,7 @@ function EventsTypesHeader() {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
         }}
-        onClick={handleOnClickPinSelection}
+        onClick={handleOnClickShowAllSubjects}
       />
     </Box>
   );
