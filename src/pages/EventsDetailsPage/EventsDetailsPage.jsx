@@ -15,7 +15,7 @@ function EventsDetailsPage() {
   const location = useLocation();
   const { selectedStudies, selectedStudiesTotalCounts } =
     useContext(StudiesContext);
-  const { selectedEventsTypes, setSelectedEventsTypes } =
+  const { selectedEventsTypes, setSelectedEventsTypes, showAllSubjects } =
     useContext(EventTypesContext);
   const { subjectsData } = useContext(SubjectsContext);
 
@@ -53,19 +53,28 @@ function EventsDetailsPage() {
     <>
       <EventsTypesHeader />
       <MainContentContainer>
-        {selectedEventsTypes.length !== 0 ? (
-          <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
-            {createSelectedEventTypesSubtitle(
-              selectedEventsTypes,
-              eventTypesChartButtonsMapping
-            )}
-          </Typography>
+        {selectedEventsTypes.length === 0 ? (
+          showAllSubjects ? (
+            <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
+              All subjects
+            </Typography>
+          ) : (
+            <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
+              Please select an event type category
+            </Typography>
+          )
         ) : (
           <Typography variant="subtitle1" sx={{ marginBottom: '2rem' }}>
-            Please select an event type category
+            {showAllSubjects
+              ? 'All subjects'
+              : createSelectedEventTypesSubtitle(
+                  selectedEventsTypes,
+                  eventTypesChartButtonsMapping
+                )}
           </Typography>
         )}
-        {selectedEventsTypes.length !== 0 ? (
+
+        {selectedEventsTypes.length !== 0 || showAllSubjects ? (
           <>
             <EventsPlotCard />
             <EventsPlotCard />

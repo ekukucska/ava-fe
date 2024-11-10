@@ -11,7 +11,8 @@ import createOrderedSelectedEventTypes from '../../utils/constructors/createOrde
 import { useTheme } from '@mui/material/styles';
 
 const EventsPlotCard = () => {
-  const { selectedEventsTypes } = useContext(EventTypesContext);
+  const { selectedEventsTypes, showAllSubjects } =
+    useContext(EventTypesContext);
   const [open, setOpen] = useState(false);
   const [reset, setReset] = useState(false);
   const theme = useTheme();
@@ -85,38 +86,41 @@ const EventsPlotCard = () => {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: showAllSubjects ? 'flex-end' : 'space-between',
             alignItems: 'center',
             mt: 1,
           }}
         >
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            {createOrderedSelectedEventTypes(
-              selectedEventsTypes,
-              eventTypesChartButtonsMapping
-            ).map((type) => {
-              const eventType = eventTypesChartButtonsMapping.find(
-                (event) => event.type === type
-              );
-              return eventType ? (
-                <Box
-                  key={eventType.index}
-                  sx={{
-                    backgroundColor: eventType.color,
-                    borderRadius: 2,
-                    padding: '2px 8px',
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{ color: `${theme.palette.white}` }}
+          {!showAllSubjects && (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {createOrderedSelectedEventTypes(
+                selectedEventsTypes,
+                eventTypesChartButtonsMapping
+              ).map((type) => {
+                const eventType = eventTypesChartButtonsMapping.find(
+                  (event) => event.type === type
+                );
+                return eventType ? (
+                  <Box
+                    key={eventType.index}
+                    sx={{
+                      backgroundColor: eventType.color,
+                      borderRadius: 2,
+                      padding: '2px 8px',
+                    }}
                   >
-                    {eventType.name}
-                  </Typography>
-                </Box>
-              ) : null;
-            })}
-          </Box>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: `${theme.palette.white}` }}
+                    >
+                      {eventType.name}
+                    </Typography>
+                  </Box>
+                ) : null;
+              })}
+            </Box>
+          )}
+
           <Button
             onClick={handleClickOpen}
             sx={{
