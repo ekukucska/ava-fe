@@ -21,6 +21,7 @@ import SubjectsContext from '../../state/SubjectsContext';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import SubjectsPlot from '../../components/SubjectsPlot/SubjectsPlot';
 import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
+import { filterSubjectsByDemographicData } from '../../utils/filters/filterSubjectsByDemographicData';
 
 const SubjectsPage = () => {
   const theme = useTheme();
@@ -45,6 +46,7 @@ const SubjectsPage = () => {
     setMaxAgeFilter,
   } = useContext(SubjectsContext);
 
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,6 +64,32 @@ const SubjectsPage = () => {
     };
     fetchData();
   }, [subjectsData]);
+
+  useEffect(() => {
+    const filteredSubjectsData = filterSubjectsByDemographicData(
+      subjectsData,
+      minHeightFilter,
+      maxHeightFilter,
+      minWeightFilter,
+      maxWeightFilter,
+      maleGenderFilter,
+      femaleGenderFilter,
+      minAgeFilter,
+      maxAgeFilter
+    );
+
+    setFilteredSubjects(filteredSubjectsData);
+  }, [
+    subjectsData,
+    minHeightFilter,
+    maxHeightFilter,
+    minWeightFilter,
+    maxWeightFilter,
+    maleGenderFilter,
+    femaleGenderFilter,
+    minAgeFilter,
+    maxAgeFilter,
+  ]);
 
   const inputStyle = {
     '& .MuiOutlinedInput-input::placeholder': {
@@ -103,6 +131,11 @@ const SubjectsPage = () => {
   };
 
   console.log('SubjectsPage: subjectsData', subjectsData); // TODO: Remove after testing
+  console.log('SubjectsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
+  console.log('SubjectsPage: minHeightFilter', minHeightFilter); // TODO: Remove after testing
+  console.log('SubjectsPage: maleGenderFilter', maleGenderFilter); // TODO: Remove after testing
+  console.log('SubjectsPage: femaleGenderFilter', femaleGenderFilter); // TODO: Remove after testing
+  console.log('SubjectsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
 
   if (loading) {
     return <LoadingSpinner />;
@@ -180,7 +213,9 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={minHeightFilter || ''}
-              onChange={(event) => setMinHeightFilter(event.target.value)}
+              onChange={(event) =>
+                setMinHeightFilter(Number(event.target.value))
+              }
               sx={inputStyle}
             />
             <TextField
@@ -189,7 +224,9 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={maxHeightFilter || ''}
-              onChange={(event) => setMaxHeightFilter(event.target.value)}
+              onChange={(event) =>
+                setMaxHeightFilter(Number(event.target.value))
+              }
               sx={inputStyle}
             />
           </Box>
@@ -224,7 +261,9 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={minWeightFilter || ''}
-              onChange={(event) => setMinWeightFilter(event.target.value)}
+              onChange={(event) =>
+                setMinWeightFilter(Number(event.target.value))
+              }
               sx={inputStyle}
             />
             <TextField
@@ -233,7 +272,9 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={maxWeightFilter || ''}
-              onChange={(event) => setMaxWeightFilter(event.target.value)}
+              onChange={(event) =>
+                setMaxWeightFilter(Number(event.target.value))
+              }
               sx={inputStyle}
             />
           </Box>
@@ -334,7 +375,7 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={minAgeFilter || ''}
-              onChange={(event) => setMinAgeFilter(event.target.value)}
+              onChange={(event) => setMinAgeFilter(Number(event.target.value))}
               sx={inputStyle}
             />
             <TextField
@@ -343,7 +384,7 @@ const SubjectsPage = () => {
               variant="outlined"
               type="number"
               value={maxAgeFilter || ''}
-              onChange={(event) => setMaxAgeFilter(event.target.value)}
+              onChange={(event) => setMaxAgeFilter(Number(event.target.value))}
               sx={inputStyle}
             />
           </Box>

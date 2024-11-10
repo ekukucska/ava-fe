@@ -10,6 +10,7 @@ import EventsPlotCard from '../../components/EventsPlotCard/EventsPlotCard';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import createSelectedEventTypesSubtitle from '../../utils/constructors/createSelectedEventTypesSubtitle';
 import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
+import { filterSubjectsForEventTypes } from '../../utils/filters/filterSubjectsForEventsTypes';
 
 function EventsDetailsPage() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function EventsDetailsPage() {
     useContext(EventTypesContext);
   const { subjectsData } = useContext(SubjectsContext);
 
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const resetSelectedEventsTypes = () => {
@@ -37,6 +39,16 @@ function EventsDetailsPage() {
     };
   }, [location]);
 
+  useEffect(() => {
+    const filteredSubjectsData = filterSubjectsForEventTypes(
+      subjectsData,
+      selectedStudies,
+      selectedEventsTypes,
+      showAllSubjects
+    );
+    setFilteredSubjects(filteredSubjectsData);
+  }, [subjectsData, selectedStudies, selectedEventsTypes, showAllSubjects]);
+
   console.log('EventDetailsPage: selectedEventsTypes', selectedEventsTypes); // TODO: Remove after testing
   console.log('EventDetailsPage: selectedStudies', selectedStudies); // TODO: Remove after testing
   console.log(
@@ -44,6 +56,7 @@ function EventsDetailsPage() {
     selectedStudiesTotalCounts
   ); // TODO: Remove after testing
   console.log('EventDetailsPage: subjectsData', subjectsData); // TODO: Remove after testing
+  console.log('EventDetailsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
 
   if (loading) {
     return <LoadingSpinner />;
