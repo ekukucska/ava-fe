@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import EventTypeBox from '../EventTypeBox/EventTypeBox';
 import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
+import { eventTypesObjectToMappedArray } from '../../utils/transformers/eventTypesObjectToMappedArray';
 
 const EventsTypesList = ({ studyData, showPercentage }) => {
+  const [eventsData, setEventsData] = useState([]);
+
+  useEffect(() => {
+    const eventsDataValue = eventTypesObjectToMappedArray(
+      studyData,
+      eventTypesChartButtonsMapping,
+      studyData.totalEvents
+    );
+    setEventsData(eventsDataValue);
+  }, [studyData]);
+
+  console.log('EventsTypesList: studyData.totalEvents:', studyData.totalEvents); // TODO: Remove after testing
+  console.log('EventsTypesList: studyData:', studyData); // TODO: Remove after testing
+  console.log('EventsTypesList: eventsData:', eventsData); // TODO: Remove after testing
+
   return (
     <Box
       sx={{
@@ -14,18 +30,14 @@ const EventsTypesList = ({ studyData, showPercentage }) => {
         justifyContent: { xs: 'center', md: 'flex-start' },
       }}
     >
-      {studyData.events.map((event) => {
-        const eventTypeData = eventTypesChartButtonsMapping.find(
-          (type) => type.type === event.eventType
-        );
-
+      {eventsData.map((event) => {
         return (
-          <span key={eventTypeData.type}>
+          <span key={event.eventType}>
             <EventTypeBox
-              key={eventTypeData.type}
+              key={event.eventType}
               number={event.count}
-              title={eventTypeData.name}
-              color={eventTypeData.color}
+              title={event.name}
+              color={event.color}
               isSelectable={false}
               isInteractive={true}
             />
@@ -52,7 +64,7 @@ EventsTypesList.propTypes = {
     end: PropTypes.string.isRequired,
     subjects: PropTypes.arrayOf(PropTypes.string).isRequired,
     patches: PropTypes.arrayOf(PropTypes.string).isRequired,
-    totalEventsCount: PropTypes.number.isRequired,
+    totalEvents: PropTypes.number.isRequired,
     events: PropTypes.arrayOf(
       PropTypes.shape({
         eventType: PropTypes.string.isRequired,

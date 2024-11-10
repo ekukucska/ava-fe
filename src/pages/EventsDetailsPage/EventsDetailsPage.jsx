@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import StudiesContext from '../../state/StudiesContext';
 import EventTypesContext from '../../state/EventsTypesContext';
+import SubjectsContext from '../../state/SubjectsContext';
 import MainContentContainer from '../../components/MainContentContainer/MainContentContainer';
 import EventsTypesHeader from '../../components/EventsTypesHeader/EventsTypesHeader';
 import EventsPlotCard from '../../components/EventsPlotCard/EventsPlotCard';
@@ -12,9 +13,11 @@ import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
 
 function EventsDetailsPage() {
   const location = useLocation();
-  const { selectedStudies } = useContext(StudiesContext);
+  const { selectedStudies, selectedStudiesTotalCounts } =
+    useContext(StudiesContext);
   const { selectedEventsTypes, setSelectedEventsTypes } =
     useContext(EventTypesContext);
+  const { subjectsData } = useContext(SubjectsContext);
 
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +37,13 @@ function EventsDetailsPage() {
     };
   }, [location]);
 
-  console.log('EventDetialsPage: selectedEventsTypes', selectedEventsTypes); // TODO: Remove after testing
+  console.log('EventDetailsPage: selectedEventsTypes', selectedEventsTypes); // TODO: Remove after testing
+  console.log('EventDetailsPage: selectedStudies', selectedStudies); // TODO: Remove after testing
+  console.log(
+    'EventDetailsPage: selectedStudiesTotalCounts',
+    selectedStudiesTotalCounts
+  ); // TODO: Remove after testing
+  console.log('EventDetailsPage: subjectsData', subjectsData); // TODO: Remove after testing
 
   if (loading) {
     return <LoadingSpinner />;

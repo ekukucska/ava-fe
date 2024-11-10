@@ -19,13 +19,13 @@ root.render(
       <CssBaseline />
       <ModalsContextProvider>
         <StudiesContextProvider>
-          <EventTypesContextProvider>
-            <SubjectsContextProvider>
+          <SubjectsContextProvider>
+            <EventTypesContextProvider>
               <ErrorBoundary>
                 <App />
               </ErrorBoundary>
-            </SubjectsContextProvider>
-          </EventTypesContextProvider>
+            </EventTypesContextProvider>
+          </SubjectsContextProvider>
         </StudiesContextProvider>
       </ModalsContextProvider>
     </ThemeProvider>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MainContentContainer from '../../components/MainContentContainer/MainContentContainer';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {
@@ -18,11 +18,15 @@ import WcIcon from '@mui/icons-material/Wc';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SubjectsContext from '../../state/SubjectsContext';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import SubjectsPlot from '../../components/SubjectsPlot/SubjectsPlot';
+import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
 
 const SubjectsPage = () => {
   const theme = useTheme();
   const {
+    subjectsData,
+    setSubjectsData,
     minHeightFilter,
     setMinHeightFilter,
     maxHeightFilter,
@@ -40,6 +44,24 @@ const SubjectsPage = () => {
     maxAgeFilter,
     setMaxAgeFilter,
   } = useContext(SubjectsContext);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!subjectsData || subjectsData.length === 0) {
+          const subjects = await fetchAggregatedSubjects();
+          setSubjectsData(subjects);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [subjectsData]);
 
   const inputStyle = {
     '& .MuiOutlinedInput-input::placeholder': {
@@ -79,6 +101,12 @@ const SubjectsPage = () => {
     setMinAgeFilter('');
     setMaxAgeFilter('');
   };
+
+  console.log('SubjectsPage: subjectsData', subjectsData); // TODO: Remove after testing
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <MainContentContainer>
