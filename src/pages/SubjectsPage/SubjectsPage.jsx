@@ -22,6 +22,10 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import SubjectsPlot from '../../components/SubjectsPlot/SubjectsPlot';
 import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
 import { filterSubjectsByDemographicData } from '../../utils/filters/filterSubjectsByDemographicData';
+import { countSubjectsTotals } from '../../utils/counters/countSubjectsTotals';
+import { mapEventTypesToCountsForSubjectsPlot } from '../../utils/map/mapEventTypesToCountsForSubjectsPlot';
+import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
+import { anomalyMapForSubjectsPlot } from '../../data/anomalyTypes';
 
 const SubjectsPage = () => {
   const theme = useTheme();
@@ -47,6 +51,10 @@ const SubjectsPage = () => {
   } = useContext(SubjectsContext);
 
   const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const [filteredSubjectsCountsTotals, setFilteredSubjectsCountsTotals] =
+    useState({});
+  const [mappedFilteredSubjectsCounts, setMappedFilteredSubjectsCounts] =
+    useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -90,6 +98,20 @@ const SubjectsPage = () => {
     minAgeFilter,
     maxAgeFilter,
   ]);
+
+  useEffect(() => {
+    const countsTotals = countSubjectsTotals(filteredSubjects);
+    setFilteredSubjectsCountsTotals(countsTotals);
+  }, [filteredSubjects]);
+
+  useEffect(() => {
+    const mappedCounts = mapEventTypesToCountsForSubjectsPlot(
+      filteredSubjectsCountsTotals,
+      eventTypesChartButtonsMapping,
+      anomalyMapForSubjectsPlot
+    );
+    setMappedFilteredSubjectsCounts(mappedCounts);
+  }, [filteredSubjectsCountsTotals]);
 
   const inputStyle = {
     '& .MuiOutlinedInput-input::placeholder': {
@@ -136,6 +158,14 @@ const SubjectsPage = () => {
   console.log('SubjectsPage: maleGenderFilter', maleGenderFilter); // TODO: Remove after testing
   console.log('SubjectsPage: femaleGenderFilter', femaleGenderFilter); // TODO: Remove after testing
   console.log('SubjectsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
+  console.log(
+    'SubjectsPage: filteredSubjectsCountsTotals',
+    filteredSubjectsCountsTotals
+  ); // TODO: Remove after testing
+  console.log(
+    'SubjectsPage: mappedFilteredSubjectsCounts',
+    mappedFilteredSubjectsCounts
+  ); // TODO: Remove after testing
 
   if (loading) {
     return <LoadingSpinner />;
@@ -400,7 +430,7 @@ const SubjectsPage = () => {
         }}
       >
         <CardContent>
-          <SubjectsPlot />
+          <SubjectsPlot data={mappedFilteredSubjectsCounts} />
         </CardContent>
       </Card>
     </MainContentContainer>

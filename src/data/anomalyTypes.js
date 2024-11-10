@@ -27,3 +27,10 @@ export const anomalyTypesChartButtonsMapping = [
   { index: 10, name: 'Suppression', color: '#30D5C8' },
   { index: 11, name: 'Anomaly', color: '#1E90FF' },
 ];
+
+export const anomalyMapForSubjectsPlot = {
+  index: 10,
+  type: 'anomalies',
+  name: 'Anomalies',
+  color: '#A9A9A9',
+};
