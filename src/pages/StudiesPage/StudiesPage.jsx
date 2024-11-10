@@ -1,43 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, CardContent, Divider, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import StudiesContext from '../../state/StudiesContext';
+import SubjectsContext from '../../state/SubjectsContext';
 import MainContentContainer from '../../components/MainContentContainer/MainContentContainer';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import StudiesPlot from '../../components/StudiesPlot/StudiesPlot';
-
-const cardData = [
-  {
-    title: 'Total Studies',
-    number: 10,
-    additionalText: 'All studies',
-  },
-  {
-    title: 'Total Participants',
-    number: 20,
-    additionalText: 'All studies',
-  },
-  { title: 'Total Events', number: 40, additionalText: 'All studies' },
-  { title: 'Total Anomalies', number: 30, additionalText: 'All studies' },
-];
+import { fetchAggregatedStudies } from '../../utils/api/aggregatedStudiesApi';
+import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
+import { countStudiesTotals } from '../../utils/counters/countStudiesTotals';
 
 function StudiesPage() {
-  const [message, setMessage] = useState('');
+  const { studiesData, setStudiesData, studiesList, setStudiesList } =
+    useContext(StudiesContext);
+  const { subjectsData, setSubjectsData } = useContext(SubjectsContext);
+
+  const [studiesTotalCounts, setStudiesTotalCounts] = useState({
+    studies: 0,
+    subjects: 0,
+    totalEvents: 0,
+    anomalies: 0,
+    eventTypes: {},
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/', { mode: 'cors' })
-      .then((response) => response.text())
-      .then((data) => {
-        setMessage(data);
-        if (data) {
-          setLoading(false);
+    const fetchData = async () => {
+      try {
+        if (!studiesData || studiesData.length === 0) {
+          const data = await fetchAggregatedStudies();
+          setStudiesData(data);
         }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+        if (!subjectsData || subjectsData.length === 0) {
+          const subjects = await fetchAggregatedSubjects();
+          setSubjectsData(subjects);
+        }
         setLoading(false);
-      });
-  }, []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [studiesData, subjectsData, setStudiesData, setSubjectsData]);
+
+  useEffect(() => {
+    const studiesListValue = studiesData.map((study) => study.name);
+    setStudiesList(studiesListValue);
+  }, [studiesData]);
+
+  useEffect(() => {
+    const newTotals = countStudiesTotals(
+      studiesList,
+      studiesData,
+      subjectsData
+    );
+    setStudiesTotalCounts(newTotals);
+  }, [studiesList, subjectsData]);
+
+  console.log('StudiesPage: studiesData:', studiesData); // TODO: Remove after testing
+  console.log('StudiesPage: studiesList:', studiesList); // TODO: Remove after testing
+  console.log('StudiesPage: subjectsData:', subjectsData); // TODO: Remove after testing
+  console.log('StudiesPage: studiesTotalCounts:', studiesTotalCounts); // TODO: Remove after testing
 
   if (loading) {
     return <LoadingSpinner />;
@@ -63,7 +87,7 @@ function StudiesPage() {
         }}
       >
         <CardContent>
-          <StudiesPlot />
+          <StudiesPlot studies={studiesData} />
         </CardContent>
       </Card>
 
@@ -77,93 +101,317 @@ function StudiesPage() {
           maxWidth: '1400px',
         }}
       >
-        {cardData.map((card, index) => (
-          <Card
-            key={index}
+        {/* STUDIES CARD */}
+        <Card
+          sx={{
+            boxShadow: '0px 2px 4px 0px #00000033',
+            flex: '1 1 300px',
+            maxWidth: '320px',
+            height: '229px',
+            padding: '16px',
+            borderRadius: '4px 0px 0px 0px',
+            opacity: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <CardContent
             sx={{
-              boxShadow: '0px 2px 4px 0px #00000033',
-              flex: '1 1 300px',
-              maxWidth: '320px',
-              height: '229px',
-              padding: '16px',
-              borderRadius: '4px 0px 0px 0px',
-              opacity: 1,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
+              height: '100%',
+              padding: '0 !important',
+              '&:last-child': {
+                paddingBottom: '0 !important',
+              },
             }}
           >
-            <CardContent
+            <Typography
+              variant="h6"
               sx={{
+                color: '#333333',
+                fontSize: '20px',
+                textAlign: 'left',
+                marginBottom: '4px',
+                marginTop: '8px',
+              }}
+            >
+              Total Studies
+            </Typography>
+
+            <Divider sx={{ marginBottom: '12px', width: '100%' }} />
+
+            <Box
+              sx={{
+                flexGrow: 1,
                 display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                padding: '0 !important',
-                '&:last-child': {
-                  paddingBottom: '0 !important',
-                },
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <Typography
-                variant="h6"
+                variant="h1"
                 sx={{
+                  fontSize: '48px',
                   color: '#333333',
-                  fontSize: '20px',
-                  textAlign: 'left',
-                  marginBottom: '4px',
-                  marginTop: '8px',
+                  textAlign: 'center',
                 }}
               >
-                {card.title}
+                {studiesList.length}
               </Typography>
+            </Box>
 
-              <Divider
-                sx={{
-                  marginBottom: '12px',
-                  width: '100%',
-                }}
-              />
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: '12px',
+                color: '#333333',
+                textAlign: 'left',
+                marginBottom: 0,
+                marginTop: 'auto',
+                position: 'relative',
+                bottom: 0,
+              }}
+            >
+              All studies
+            </Typography>
+          </CardContent>
+        </Card>
 
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontSize: '48px',
-                    color: '#333333',
-                    textAlign: 'center',
-                  }}
-                >
-                  {card.number}
-                </Typography>
-              </Box>
+        {/* PARTICIPANTS CARD */}
+        <Card
+          sx={{
+            boxShadow: '0px 2px 4px 0px #00000033',
+            flex: '1 1 300px',
+            maxWidth: '320px',
+            height: '229px',
+            padding: '16px',
+            borderRadius: '4px 0px 0px 0px',
+            opacity: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              padding: '0 !important',
+              '&:last-child': {
+                paddingBottom: '0 !important',
+              },
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#333333',
+                fontSize: '20px',
+                textAlign: 'left',
+                marginBottom: '4px',
+                marginTop: '8px',
+              }}
+            >
+              Total Subjects
+            </Typography>
 
+            <Divider sx={{ marginBottom: '12px', width: '100%' }} />
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Typography
-                variant="body2"
+                variant="h1"
                 sx={{
-                  fontSize: '12px',
+                  fontSize: '48px',
                   color: '#333333',
-                  textAlign: 'left',
-                  marginBottom: 0,
-                  marginTop: 'auto',
-                  position: 'relative',
-                  bottom: 0,
+                  textAlign: 'center',
                 }}
               >
-                {card.additionalText}
+                {studiesTotalCounts.totalParticipants}
               </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
+            </Box>
 
-      <Typography variant="body1">TEST - Data from BE: {message}</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: '12px',
+                color: '#333333',
+                textAlign: 'left',
+                marginBottom: 0,
+                marginTop: 'auto',
+                position: 'relative',
+                bottom: 0,
+              }}
+            >
+              All participants
+            </Typography>
+          </CardContent>
+        </Card>
+        {/* EVENTS CARD */}
+        <Card
+          sx={{
+            boxShadow: '0px 2px 4px 0px #00000033',
+            flex: '1 1 300px',
+            maxWidth: '320px',
+            height: '229px',
+            padding: '16px',
+            borderRadius: '4px 0px 0px 0px',
+            opacity: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              padding: '0 !important',
+              '&:last-child': {
+                paddingBottom: '0 !important',
+              },
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#333333',
+                fontSize: '20px',
+                textAlign: 'left',
+                marginBottom: '4px',
+                marginTop: '8px',
+              }}
+            >
+              Total Events
+            </Typography>
+
+            <Divider sx={{ marginBottom: '12px', width: '100%' }} />
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: '48px',
+                  color: '#333333',
+                  textAlign: 'center',
+                }}
+              >
+                {studiesTotalCounts.totalEvents}
+              </Typography>
+            </Box>
+
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: '12px',
+                color: '#333333',
+                textAlign: 'left',
+                marginBottom: 0,
+                marginTop: 'auto',
+                position: 'relative',
+                bottom: 0,
+              }}
+            >
+              All events
+            </Typography>
+          </CardContent>
+        </Card>
+
+        {/* ANOMALIES CARD */}
+        <Card
+          sx={{
+            boxShadow: '0px 2px 4px 0px #00000033',
+            flex: '1 1 300px',
+            maxWidth: '320px',
+            height: '229px',
+            padding: '16px',
+            borderRadius: '4px 0px 0px 0px',
+            opacity: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              padding: '0 !important',
+              '&:last-child': {
+                paddingBottom: '0 !important',
+              },
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: '#333333',
+                fontSize: '20px',
+                textAlign: 'left',
+                marginBottom: '4px',
+                marginTop: '8px',
+              }}
+            >
+              Total Anomalies
+            </Typography>
+
+            <Divider sx={{ marginBottom: '12px', width: '100%' }} />
+
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: '48px',
+                  color: '#333333',
+                  textAlign: 'center',
+                }}
+              >
+                {studiesTotalCounts.totalAnomalies}
+              </Typography>
+            </Box>
+
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: '12px',
+                color: '#333333',
+                textAlign: 'left',
+                marginBottom: 0,
+                marginTop: 'auto',
+                position: 'relative',
+                bottom: 0,
+              }}
+            >
+              All anomalies
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
     </MainContentContainer>
   );
 }

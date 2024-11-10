@@ -9,8 +9,12 @@ import CustomButton from '../CustomButton/CustomButton';
 const Footer = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { selectedStudies, setSelectedStudies, setCompareMultipleStudies } =
-    useContext(StudiesContext);
+  const {
+    selectedStudies,
+    setSelectedStudies,
+    setCompareMultipleStudies,
+    selectedStudiesTotalCounts,
+  } = useContext(StudiesContext);
 
   const handleOnClickCancel = () => {
     setSelectedStudies([]);
@@ -23,6 +27,8 @@ const Footer = () => {
     setCompareMultipleStudies(false);
     navigate('/events/events-details');
   };
+
+  console.log('StudiesFooter: selectedStudies', selectedStudies); // TODO: Remove after testing
 
   return (
     <Box
@@ -82,7 +88,9 @@ const Footer = () => {
             }}
           >
             <Typography variant="caption">TOTAL PARTICIPANTS</Typography>
-            <Typography variant="h2">0</Typography>
+            <Typography variant="h2">
+              {selectedStudiesTotalCounts.totalParticipants}
+            </Typography>
           </Box>
 
           {/* TOTAL PATCHES */}
@@ -93,8 +101,10 @@ const Footer = () => {
               textAlign: 'center',
             }}
           >
-            <Typography variant="caption">TOTAL PATCHES</Typography>
-            <Typography variant="h2">0</Typography>
+            <Typography variant="caption">TOTAL EVENTS</Typography>
+            <Typography variant="h2">
+              {selectedStudiesTotalCounts.totalEvents}
+            </Typography>
           </Box>
 
           {/* TOTAL EVENTS */}
@@ -105,8 +115,10 @@ const Footer = () => {
               textAlign: 'center',
             }}
           >
-            <Typography variant="caption">TOTAL EVENTS</Typography>
-            <Typography variant="h2">0</Typography>
+            <Typography variant="caption">TOTAL ANOMALIES</Typography>
+            <Typography variant="h2">
+              {selectedStudiesTotalCounts.totalAnomalies}
+            </Typography>
           </Box>
         </Box>
       </Box>

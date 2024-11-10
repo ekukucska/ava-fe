@@ -57,6 +57,9 @@ const StudiesList = ({ studies, showPercentage }) => {
     }
   };
 
+  console.log('StudiesList: studies:', studies); // TODO: Remove after testing
+  console.log('StudiesList: studies[0]:', studies[0]); // TODO: Remove after testing
+
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -128,7 +131,7 @@ const StudiesList = ({ studies, showPercentage }) => {
                     Date
                   </Typography>
                   <Typography variant="h5" sx={{ width: '5.1rem' }}>
-                    {`${formatISODateToDayMonth(study.start)} - ${formatISODateToDayMonth(study.end)}`}
+                    {`${formatISODateToDayMonth(study.earliestStartDate)} - ${formatISODateToDayMonth(study.latestEndDate)}`}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', gap: '0.5rem' }}>
@@ -139,29 +142,9 @@ const StudiesList = ({ studies, showPercentage }) => {
                     Participants
                   </Typography>
                   <Typography variant="h5" sx={{ width: '5.1rem' }}>
-                    {study.subjects.length}
+                    {study.totalParticipants}
                   </Typography>
                 </Box>
-              </Box>
-
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{ borderColor: `${theme.palette.ava_light_blue.main}` }}
-              />
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                }}
-              >
-                <Typography variant="caption" sx={{ fontWeight: '700' }}>
-                  PATCHES
-                </Typography>
-                <Typography variant="h2">{study.subjects.length}</Typography>
               </Box>
 
               <Divider
@@ -181,7 +164,27 @@ const StudiesList = ({ studies, showPercentage }) => {
                 <Typography variant="caption" sx={{ fontWeight: '700' }}>
                   EVENTS
                 </Typography>
-                <Typography variant="h2">{study.patches.length}</Typography>
+                <Typography variant="h2">{study.totalEvents}</Typography>
+              </Box>
+
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{ borderColor: `${theme.palette.ava_light_blue.main}` }}
+              />
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <Typography variant="caption" sx={{ fontWeight: '700' }}>
+                  ANOMALIES
+                </Typography>
+                <Typography variant="h2">{study.totalAnomalies}</Typography>
               </Box>
 
               <EventsTypesList

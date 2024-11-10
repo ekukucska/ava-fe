@@ -1,43 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import { Box, CardContent } from '@mui/material';
 
-const ParticipantsPlot = () => {
-  const studies = [
-    {
-      name: 'Study 1',
-      totalParticipants: 50,
-    },
-    {
-      name: 'Study 2',
-      totalParticipants: 30,
-    },
-    {
-      name: 'Study 3',
-      totalParticipants: 70,
-    },
-    {
-      name: 'Study 4',
-      totalParticipants: 100,
-    },
-    {
-      name: 'Study 5',
-      totalParticipants: 20,
-    },
-  ];
-
+const StudiesPlot = ({ studies }) => {
+  // Map the studies data to get participant counts and study names
   const plotData = [
     {
-      x: studies.map((study) => study.totalParticipants),
-      y: studies.map((study) => study.name),
+      x: studies.map((study) => study.participants.length), // number of participants
+      y: studies.map((study, index) => index + 1), // using index for y-axis
       type: 'bar',
       orientation: 'h',
-      width: Array(studies.length).fill(0.4),
+      width: Array(studies.length).fill(0.5), // uniform bar width
       marker: {
         color: '#0052A3',
       },
       text: studies.map(
-        (study) => `${study.name}<br>${study.totalParticipants} participants`
+        (study) => `${study.name}<br>${study.participants.length} participants`
       ),
       textposition: 'inside',
       insidetextanchor: 'middle',
@@ -48,6 +27,7 @@ const ParticipantsPlot = () => {
     },
   ];
 
+  // Define the layout for the Plotly chart
   const layout = {
     autosize: true,
     responsive: true,
@@ -63,13 +43,13 @@ const ParticipantsPlot = () => {
     },
     yaxis: {
       automargin: true,
-      showgrid: true,
+      showgrid: false,
       zeroline: false,
       showline: false,
       linecolor: 'lightgrey',
       linewidth: 0.5,
       visible: true,
-      showticklabels: false,
+      showticklabels: false, // Hide study names on y-axis
       ticks: '',
     },
     showlegend: false,
@@ -95,4 +75,13 @@ const ParticipantsPlot = () => {
   );
 };
 
-export default ParticipantsPlot;
+StudiesPlot.propTypes = {
+  studies: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      participants: PropTypes.array.isRequired,
+    })
+  ).isRequired,
+};
+
+export default StudiesPlot;
