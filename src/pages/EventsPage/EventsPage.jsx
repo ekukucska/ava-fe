@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import StudiesContext from '../../state/StudiesContext';
 import SubjectsContext from '../../state/SubjectsContext';
+import EventsTypesContext from '../../state/EventsTypesContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -29,6 +30,7 @@ function EventsPage() {
     setSelectedStudiesTotalCounts,
   } = useContext(StudiesContext);
   const { subjectsData, setSubjectsData } = useContext(SubjectsContext);
+  const { setShowAllSubjects } = useContext(EventsTypesContext);
 
   const [studiesListTotalCounts, setStudiesListTotalCounts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,6 +91,7 @@ function EventsPage() {
   }, [studiesList, studiesData, subjectsData]);
 
   const handleOnClickCompareMultipleStudies = () => {
+    setShowAllSubjects(false);
     if (compareMultipleStudies) {
       setCompareMultipleStudies(false);
       setSelectedStudies([]);

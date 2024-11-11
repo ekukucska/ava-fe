@@ -11,12 +11,14 @@ import { useTheme } from '@mui/material/styles';
 import EventsTypesList from '../../components/EventsTypesList/EventsTypesList';
 import formatISODateToDayMonth from '../../utils/transformers/formatISODateToDayMonth';
 import StudiesContext from '../../state/StudiesContext';
+import EventTypesContext from '../../state/EventsTypesContext';
 
 const StudiesList = ({ studies, showPercentage }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { selectedStudies, setSelectedStudies, compareMultipleStudies } =
     useContext(StudiesContext);
+  const { setShowAllSubjects } = useContext(EventTypesContext);
 
   useEffect(() => {
     if (!compareMultipleStudies) {
@@ -40,6 +42,7 @@ const StudiesList = ({ studies, showPercentage }) => {
         setSelectedStudies((prev) => [...prev, studyName]);
       }
     } else {
+      setShowAllSubjects(false);
       setSelectedStudies([studyName]);
       navigate('/events/events-details');
     }
