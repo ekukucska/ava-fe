@@ -89,9 +89,14 @@ function EventsDetailsPage() {
 
         {selectedEventsTypes.length !== 0 || showAllSubjects ? (
           <>
-            <EventsPlotCard />
-            <EventsPlotCard />
-            <EventsPlotCard />
+            {filteredSubjects.map((subject) => (
+              <EventsPlotCard
+                key={subject.subject}
+                subjectData={subject}
+                studyName={subject.study}
+                subjectName={subject.subject}
+              />
+            ))}
           </>
         ) : (
           <Typography variant="body2" sx={{ marginBottom: '1rem' }}>

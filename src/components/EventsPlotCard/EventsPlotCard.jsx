@@ -1,21 +1,41 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import EventTypesContext from '../../state/EventsTypesContext';
+import { useTheme } from '@mui/material/styles';
 import { Card, Typography, Box, Button } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import EventsPlot from '../EventsPlot/EventsPlot';
-import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
 import createOrderedSelectedEventTypes from '../../utils/constructors/createOrderedSelectedEventTypes';
-import { useTheme } from '@mui/material/styles';
+import EventsPlot from '../EventsPlot/EventsPlot';
+import { createEventsPlotDataSets } from '../../utils/constructors/createEventsPlotDataSets';
+import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
+import { anomalyMapForSubjectsPlot } from '../../data/anomalyTypes';
 
-const EventsPlotCard = () => {
+const EventsPlotCard = ({ subjectData, studyName, subjectName }) => {
+  const theme = useTheme();
   const { selectedEventsTypes, showAllSubjects } =
     useContext(EventTypesContext);
+
   const [open, setOpen] = useState(false);
   const [reset, setReset] = useState(false);
-  const theme = useTheme();
+  const [plotData, setPlotData] = useState([]);
+
+  useEffect(() => {
+    const plotDataValue = createEventsPlotDataSets(
+      subjectData,
+      eventTypesChartButtonsMapping,
+      anomalyMapForSubjectsPlot
+    );
+
+    setPlotData(plotDataValue);
+  }, [
+    subjectData,
+    eventTypesChartButtonsMapping,
+    anomalyMapForSubjectsPlot,
+    reset,
+  ]);
 
   const handleClickOpen = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -61,7 +81,7 @@ const EventsPlotCard = () => {
                 fontWeight: '600',
               }}
             >
-              Subject: 01-001 / Study: ST-01
+              {studyName} / {subjectName}
             </Typography>
             <Box
               sx={{
@@ -174,12 +194,17 @@ const EventsPlotCard = () => {
               overflow: 'hidden',
             }}
           >
-            <EventsPlot reset={reset} style={{ width: '100%' }} />
+            <EventsPlot dataSets={plotData} style={{ width: '100%' }} />
           </Box>
         </Box>
       )}
     </Card>
   );
+};
+EventsPlotCard.propTypes = {
+  subjectData: PropTypes.object.isRequired,
+  studyName: PropTypes.string.isRequired,
+  subjectName: PropTypes.string.isRequired,
 };
 
 export default EventsPlotCard;
