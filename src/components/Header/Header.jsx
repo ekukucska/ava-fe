@@ -22,7 +22,11 @@ import EditProfileModal from '../EditProfileModal/EditProfileModal';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
 import SignOutModal from '../SignOutModal/SignOutModal';
 
-const pages = ['Studies', 'Subjects', 'Events'];
+const pages = [
+  { name: 'Studies', path: '/studies' },
+  { name: 'Patterns', path: '/patterns' },
+  { name: 'Events', path: '/events' },
+];
 
 function ResponsiveAppBar() {
   const theme = useTheme();
@@ -52,36 +56,18 @@ function ResponsiveAppBar() {
     }
   }, [email]);
 
-  // Determine what to display
   const displayName =
     firstName || lastName
       ? `${firstName} ${lastName}`.trim()
       : email || 'Researcher';
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleCloseNavMenu = () => setAnchorElNav(null);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const isActive = (path) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`);
 
-  const isActive = (page) => {
-    if (location.pathname === '/' && page.toLowerCase() === 'studies') {
-      return true;
-    }
-    if (
-      page.toLowerCase() === 'events' &&
-      location.pathname.startsWith('/events')
-    ) {
-      return true;
-    }
-    return location.pathname === `/${page.toLowerCase()}`;
-  };
-
-  const handleProfileButtonClick = () => {
-    setOpenProfileModal(true);
-  };
+  const handleProfileButtonClick = () => setOpenProfileModal(true);
 
   return (
     <AppBar
@@ -143,7 +129,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -154,29 +140,21 @@ function ResponsiveAppBar() {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+              sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
                 <MenuItem
-                  key={page}
+                  key={page.name}
                   component={Link}
-                  to={`/${page.toLowerCase()}`}
+                  to={page.path}
                   onClick={handleCloseNavMenu}
                   sx={{
-                    color: isActive(page)
+                    color: isActive(page.path)
                       ? theme.palette.primary.main
                       : theme.palette.secondary.main,
                     fontFamily: "'Nunito', sans-serif",
@@ -185,43 +163,12 @@ function ResponsiveAppBar() {
                     fontWeight: 600,
                   }}
                 >
-                  {page}
+                  {page.name}
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-          <Box
-            component="img"
-            src="/assets/svg/your-logo.svg"
-            alt="Logo"
-            sx={{
-              display: { xs: 'none' },
-              mr: 1,
-              width: 80,
-              height: 'auto',
-            }}
-          />
-
-          <Typography
-            variant="h5"
-            noWrap
-            component={Link}
-            to="/"
-            sx={{
-              mr: 4,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: "'Brandon Grotesque', 'sans-serif'",
-              fontSize: '26px',
-              fontWeight: 700,
-              letterSpacing: '0.05rem',
-              color: theme.palette.text.primary,
-              textDecoration: 'none',
-            }}
-          >
-            DataSense
-          </Typography>
           <Box
             sx={{
               flexGrow: 1,
@@ -231,13 +178,12 @@ function ResponsiveAppBar() {
           >
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
                 component={Link}
-                to={`/${page.toLowerCase()}`}
+                to={page.path}
                 sx={{
                   my: 2,
-                  color: isActive(page)
+                  color: isActive(page.path)
                     ? theme.palette.primary.main
                     : theme.palette.secondary.main,
                   display: 'block',
@@ -247,10 +193,11 @@ function ResponsiveAppBar() {
                   textTransform: 'capitalize',
                 }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
+
           <Typography
             sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '2rem' }}
           >

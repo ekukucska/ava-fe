@@ -19,15 +19,14 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SubjectsContext from '../../state/SubjectsContext';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import SubjectsPlot from '../../components/SubjectsPlot/SubjectsPlot';
+import PatternsPlot from '../../components/PatternsPlot/PatternsPlot';
 import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
 import { filterSubjectsByDemographicData } from '../../utils/filters/filterSubjectsByDemographicData';
-import { countSubjectsTotals } from '../../utils/counters/countSubjectsTotals';
-import { mapEventTypesToCountsForSubjectsPlot } from '../../utils/map/mapEventTypesToCountsForSubjectsPlot';
 import { eventTypesChartButtonsMapping } from '../../data/eventTypes';
-import { anomalyMapForSubjectsPlot } from '../../data/anomalyTypes';
+import { createCorrelationsList } from '../../utils/corellationCalc/createCorrelationsList';
+import { mapEventTypesCorrelationValues } from '../../utils/corellationCalc/mapEventTypesCorrelationValues';
 
-const SubjectsPage = () => {
+const PatternsPage = () => {
   const theme = useTheme();
   const {
     subjectsData,
@@ -51,11 +50,9 @@ const SubjectsPage = () => {
   } = useContext(SubjectsContext);
 
   const [filteredSubjects, setFilteredSubjects] = useState([]);
-  const [filteredSubjectsCountsTotals, setFilteredSubjectsCountsTotals] =
-    useState({});
-  const [mappedFilteredSubjectsCounts, setMappedFilteredSubjectsCounts] =
-    useState([]);
   const [loading, setLoading] = useState(true);
+  const [correlationsList, setCorrelationsList] = useState([]);
+  const [mappedCorrelationsList, setMappedCorrelationsList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,18 +97,17 @@ const SubjectsPage = () => {
   ]);
 
   useEffect(() => {
-    const countsTotals = countSubjectsTotals(filteredSubjects);
-    setFilteredSubjectsCountsTotals(countsTotals);
+    const correlations = createCorrelationsList(filteredSubjects);
+    setCorrelationsList(correlations);
   }, [filteredSubjects]);
 
   useEffect(() => {
-    const mappedCounts = mapEventTypesToCountsForSubjectsPlot(
-      filteredSubjectsCountsTotals,
-      eventTypesChartButtonsMapping,
-      anomalyMapForSubjectsPlot
+    const mappedCorrelations = mapEventTypesCorrelationValues(
+      correlationsList,
+      eventTypesChartButtonsMapping
     );
-    setMappedFilteredSubjectsCounts(mappedCounts);
-  }, [filteredSubjectsCountsTotals]);
+    setMappedCorrelationsList(mappedCorrelations);
+  }, [correlationsList]);
 
   const inputStyle = {
     '& .MuiOutlinedInput-input::placeholder': {
@@ -152,21 +148,6 @@ const SubjectsPage = () => {
     setMaxAgeFilter('');
   };
 
-  console.log('SubjectsPage: subjectsData', subjectsData); // TODO: Remove after testing
-  console.log('SubjectsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
-  console.log('SubjectsPage: minHeightFilter', minHeightFilter); // TODO: Remove after testing
-  console.log('SubjectsPage: maleGenderFilter', maleGenderFilter); // TODO: Remove after testing
-  console.log('SubjectsPage: femaleGenderFilter', femaleGenderFilter); // TODO: Remove after testing
-  console.log('SubjectsPage: filteredSubjects', filteredSubjects); // TODO: Remove after testing
-  console.log(
-    'SubjectsPage: filteredSubjectsCountsTotals',
-    filteredSubjectsCountsTotals
-  ); // TODO: Remove after testing
-  console.log(
-    'SubjectsPage: mappedFilteredSubjectsCounts',
-    mappedFilteredSubjectsCounts
-  ); // TODO: Remove after testing
-
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -174,10 +155,8 @@ const SubjectsPage = () => {
   return (
     <MainContentContainer>
       <Typography variant="subtitle1" sx={{ marginBottom: '1rem' }}>
-        Adjust the filters to analyze demographic trends in the subjects&apos;
-        data.
+        Adjust the demographic filters to analyze corerelation patterns
       </Typography>
-
       <Box
         sx={{
           width: '100%',
@@ -430,11 +409,11 @@ const SubjectsPage = () => {
         }}
       >
         <CardContent>
-          <SubjectsPlot data={mappedFilteredSubjectsCounts} />
+          <PatternsPlot data={mappedCorrelationsList} />
         </CardContent>
       </Card>
     </MainContentContainer>
   );
 };
 
-export default SubjectsPage;
+export default PatternsPage;
