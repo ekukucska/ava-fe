@@ -87,6 +87,15 @@ function EventsDetailsPage() {
           </Typography>
         )}
 
+        {selectedEventsTypes.length !== 0 &&
+        !showAllSubjects &&
+        filteredSubjects.length === 0 ? (
+          <Typography variant="body2" sx={{ marginBottom: '1rem' }}>
+            There are 0 subjects that have the selected event types. Please
+            change your event selection or choose to show all subjects.
+          </Typography>
+        ) : null}
+
         {selectedEventsTypes.length !== 0 || showAllSubjects ? (
           <>
             {filteredSubjects.map((subject) => (
@@ -100,8 +109,8 @@ function EventsDetailsPage() {
           </>
         ) : (
           <Typography variant="body2" sx={{ marginBottom: '1rem' }}>
-            Please select an event category to get patches that feature that
-            event type
+            Please select an event category to get subjects that have that event
+            type
           </Typography>
         )}
       </MainContentContainer>
