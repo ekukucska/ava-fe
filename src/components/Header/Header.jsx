@@ -65,7 +65,9 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => setAnchorElNav(null);
 
   const isActive = (path) =>
-    location.pathname === path || location.pathname.startsWith(`${path}/`);
+    location.pathname === path ||
+    (path === '/studies' && location.pathname === '/') ||
+    location.pathname.startsWith(`${path}/`);
 
   const handleProfileButtonClick = () => setOpenProfileModal(true);
 
