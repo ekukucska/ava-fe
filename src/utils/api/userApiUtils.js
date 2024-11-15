@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../../constants/apiConstants';
 
 const handleResponse = async (response) => {
   if (!response.ok) {

@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../../constants/apiConstants';
+
 export async function fetchAggregatedStudies() {
-  const url = 'http://localhost:5000/api/aggregatedStudies';
+  const url = `${API_BASE_URL}/api/aggregatedStudies`;
 
   try {
     const response = await fetch(url, {
