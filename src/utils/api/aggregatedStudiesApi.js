@@ -1,14 +1,17 @@
 import { API_BASE_URL } from '../../constants/apiConstants';
 
-export async function fetchAggregatedStudies() {
+const getHeaders = (token) => ({
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${token}`, // Add token in Authorization header
+});
+
+export async function fetchAggregatedStudies(token) {
   const url = `${API_BASE_URL}/api/aggregatedStudies`;
 
   try {
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(token),
     });
 
     if (!response.ok) {

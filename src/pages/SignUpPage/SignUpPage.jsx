@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Divider from '@mui/material/Divider';
-import userApiUtils from '../../utils/api/userApiUtils';
+import registerUser from '../../utils/api/registerUser Api';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ const SignUpPage = () => {
 
     if (isEmailValid && isPasswordValid && doPasswordsMatch) {
       try {
-        await userApiUtils.createUser(email, password);
+        await registerUser(email, password);
         setAccountCreated(true);
         setCreationError(''); // Clear any previous error
       } catch (error) {

@@ -12,7 +12,6 @@ import StudiesFooter from '../../components/StudiesFooter/StudiesFooter';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { countStudiesTotals } from '../../utils/counters/countStudiesTotals';
 import { countStudiesTotalsWithStudyDetails } from '../../utils/counters/countStudiesTotalsWithStudyDetails';
-import { studies } from '../../mockData/mockStudies';
 import { fetchAggregatedStudies } from '../../utils/api/aggregatedStudiesApi';
 import { fetchAggregatedSubjects } from '../../utils/api/aggregatedSubjectsApi';
 
@@ -34,16 +33,29 @@ function EventsPage() {
 
   const [studiesListTotalCounts, setStudiesListTotalCounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const tokenFromStorage = localStorage.getItem('token');
+    if (tokenFromStorage) {
+      console.log('Token from localStorage:', tokenFromStorage);
+      setToken(tokenFromStorage);
+    } else {
+      console.error('Token not found in localStorage');
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!token) return; // Wait until token is available
+
       try {
         if (!studiesData || studiesData.length === 0) {
-          const data = await fetchAggregatedStudies();
+          const data = await fetchAggregatedStudies(token);
           setStudiesData(data);
         }
         if (!subjectsData || subjectsData.length === 0) {
-          const subjects = await fetchAggregatedSubjects();
+          const subjects = await fetchAggregatedSubjects(token);
           setSubjectsData(subjects);
         }
         setLoading(false);
@@ -53,7 +65,7 @@ function EventsPage() {
       }
     };
     fetchData();
-  }, [studiesData, subjectsData, setStudiesData, setSubjectsData]);
+  }, [studiesData, subjectsData, setStudiesData, setSubjectsData, token]);
 
   useEffect(() => {
     if (studiesList.length === 0) {

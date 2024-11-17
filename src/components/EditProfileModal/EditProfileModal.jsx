@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Dialog,
@@ -24,6 +24,14 @@ function EditProfileModal() {
   const [editError, setEditError] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const tokenFromStorage = localStorage.getItem('token');
+    if (tokenFromStorage) {
+      setToken(tokenFromStorage);
+    }
+  }, []);
 
   const onClose = () => {
     setOpenEditProfileModal(false);
@@ -37,15 +45,20 @@ function EditProfileModal() {
 
   const onSubmit = async () => {
     try {
-      // Replace 'user@example.com' with the actual email of the user
-      const email = 'test@mail.com'; // Get correct user email
-      await userApiUtils.updateUserNames(email, firstName, lastName);
-      setEditSuccessful(true);
-      setEditError('');
+      const email = localStorage.getItem('authenticatedUser');
+      if (email) {
+        await userApiUtils.updateUserNames(token, email, firstName, lastName);
+        setEditSuccessful(true);
+        setEditError('');
+      } else {
+        setEditError('User not authenticated.');
+        setEditSuccessful(false);
+      }
     } catch (error) {
       setEditError('Update failed. Please try again.');
       setEditSuccessful(false);
     }
+
     setFirstName('');
     setLastName('');
   };

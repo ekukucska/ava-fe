@@ -8,19 +8,20 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-const getHeaders = () => ({
+const getHeaders = (token) => ({
   'Content-Type': 'application/json',
+  Authorization: `Bearer ${token}`, // Add token in Authorization header
 });
 
 const userApiUtils = {
   // Get user by email
-  getUserByEmail: async (email) => {
+  getUserByEmail: async (token, email) => {
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/users/by-email/${email}`,
         {
           method: 'GET',
-          headers: getHeaders(),
+          headers: getHeaders(token),
         }
       );
       return handleResponse(response);
@@ -30,34 +31,14 @@ const userApiUtils = {
     }
   },
 
-  // Create new user with optional name fields
-  createUser: async (email, password, options = {}) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/users/create`, {
-        method: 'POST',
-        headers: getHeaders(),
-        body: JSON.stringify({
-          email,
-          password,
-          firstName: options.firstName || '',
-          lastName: options.lastName || '',
-        }),
-      });
-      return handleResponse(response);
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
-  },
-
   // Update user names
-  updateUserNames: async (email, firstName, lastName) => {
+  updateUserNames: async (token, email, firstName, lastName) => {
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/users/update-names-by-email`,
         {
           method: 'PATCH',
-          headers: getHeaders(),
+          headers: getHeaders(token),
           body: JSON.stringify({
             email,
             firstName,
@@ -73,13 +54,13 @@ const userApiUtils = {
   },
 
   // Delete user
-  deleteUser: async (email) => {
+  deleteUser: async (token, email) => {
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/users/delete-by-email`,
         {
           method: 'DELETE',
-          headers: getHeaders(),
+          headers: getHeaders(token),
           body: JSON.stringify({ email }),
         }
       );
