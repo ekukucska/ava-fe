@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import LoginContentContainer from '../../components/LoginContentContainer/LoginContentContainer';
+import loginUserApi from '../../utils/api/loginUserApi';
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [submitError, setSubmitError] = useState(false); // New state to track form submission error
+  const [submitError, setSubmitError] = useState(false); // To track form submission error
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,19 +53,26 @@ const SignInPage = () => {
     validatePassword(newPassword);
   };
 
-  const handleSignIn = (event) => {
+  const handleSignIn = async (event) => {
     event.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('authenticatedUser');
 
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
 
-    if (isEmailValid && isPasswordValid) {
-      console.log('Sign in button clicked', { email, password }); // TODO: Remove after testing
-      // TODO: Add sign-in logic
-      // Simulate incorrect credentials for demo purposes // TODO: Replace after implementing auth logic
-      setSubmitError(true); // Set error state when credentials are invalid
-    } else {
-      setSubmitError(true); // Set error if validation fails
+    if (!isEmailValid || !isPasswordValid) {
+      setSubmitError(true);
+      return;
+    }
+
+    try {
+      const data = await loginUserApi(email, password);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('authenticatedUser', email);
+      navigate('/');
+    } catch (error) {
+      setSubmitError(true);
     }
   };
 
@@ -96,8 +104,6 @@ const SignInPage = () => {
             advanced data visualization
           </Typography>
 
-          {/* TODO: Replace later with proper logic & conditions for authentication */}
-          {/* Error alert shown if form submission fails */}
           {submitError && (
             <Alert
               severity="error"

@@ -9,11 +9,13 @@ import {
   Divider,
 } from '@mui/material';
 import { useTheme } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 import ModalsContext from '../../state/ModalsContext';
 import CustomButton from '../CustomButton/CustomButton';
 
 function SignOutModal() {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const { openSignOutModal, setOpenSignOutModal } = useContext(ModalsContext);
 
@@ -26,7 +28,10 @@ function SignOutModal() {
   };
 
   const onSignOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('authenticatedUser');
     setOpenSignOutModal(false);
+    navigate('/signin');
   };
 
   return (
@@ -98,6 +103,7 @@ function SignOutModal() {
     </Dialog>
   );
 }
+
 SignOutModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

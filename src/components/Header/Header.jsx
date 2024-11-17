@@ -31,17 +31,36 @@ const pages = [
 function ResponsiveAppBar() {
   const theme = useTheme();
   const location = useLocation();
+
   const { setOpenProfileModal } = useContext(ModalsContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('test@mail.com'); // TODO: Add actual email check logic
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const userFromStorage = localStorage.getItem('authenticatedUser');
+    if (userFromStorage) {
+      setAuthenticatedUser(userFromStorage);
+    }
+  }, []);
+
+  useEffect(() => {
+    const tokenFromStorage = localStorage.getItem('token');
+    if (tokenFromStorage) {
+      setToken(tokenFromStorage);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = await userApiUtils.getUserByEmail(email);
+        const user = await userApiUtils.getUserByEmail(
+          token,
+          authenticatedUser
+        );
         if (user) {
           setFirstName(user.firstName || '');
           setLastName(user.lastName || '');
@@ -51,15 +70,15 @@ function ResponsiveAppBar() {
       }
     };
 
-    if (email) {
+    if (authenticatedUser) {
       fetchUserData();
     }
-  }, [email]);
+  }, [authenticatedUser]);
 
   const displayName =
     firstName || lastName
       ? `${firstName} ${lastName}`.trim()
-      : email || 'Researcher';
+      : authenticatedUser || 'Researcher';
 
   const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);

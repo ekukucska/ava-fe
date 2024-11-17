@@ -23,16 +23,29 @@ function StudiesPage() {
     eventTypes: {},
   });
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
+    const tokenFromStorage = localStorage.getItem('token');
+    if (tokenFromStorage) {
+      console.log('Token from localStorage:', tokenFromStorage);
+      setToken(tokenFromStorage);
+    } else {
+      console.error('Token not found in localStorage');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!token) return; // Wait until token is available
+
     const fetchData = async () => {
       try {
         if (!studiesData || studiesData.length === 0) {
-          const data = await fetchAggregatedStudies();
+          const data = await fetchAggregatedStudies(token);
           setStudiesData(data);
         }
         if (!subjectsData || subjectsData.length === 0) {
-          const subjects = await fetchAggregatedSubjects();
+          const subjects = await fetchAggregatedSubjects(token);
           setSubjectsData(subjects);
         }
         setLoading(false);
@@ -42,7 +55,7 @@ function StudiesPage() {
       }
     };
     fetchData();
-  }, [studiesData, subjectsData, setStudiesData, setSubjectsData]);
+  }, [studiesData, subjectsData, setStudiesData, setSubjectsData, token]);
 
   useEffect(() => {
     if (studiesList.length === 0) {

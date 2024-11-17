@@ -1,5 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogTitle,
@@ -15,16 +16,29 @@ import userApiUtils from '../../utils/api/userApiUtils';
 
 function DeleteAccountModal() {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   const { openDeleteAccountModal, setOpenDeleteAccountModal } =
     useContext(ModalsContext);
 
-  const [deleteSuccessfull, setDeleteSuccessfull] = useState(false);
+  const [deleteSuccessful, setDeleteSuccessful] = useState(false);
   const [deletionError, setDeletionError] = useState('');
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const tokenFromStorage = localStorage.getItem('token');
+    if (tokenFromStorage) {
+      setToken(tokenFromStorage);
+    }
+  }, []);
 
   const onClose = () => {
     setOpenDeleteAccountModal(false);
-    setDeleteSuccessfull(false);
-    setDeletionError(''); // Reset error state on close
+    if (deleteSuccessful) {
+      navigate('/signin');
+    }
+    setDeleteSuccessful(false);
+    setDeletionError('');
   };
 
   const onCancel = () => {
@@ -33,15 +47,21 @@ function DeleteAccountModal() {
 
   const onDelete = async () => {
     try {
-      // Replace with the actual user's email you want to delete
-      const userEmail = 'user@example.com'; // Retrieve the user's email as needed
-      await userApiUtils.deleteUser(userEmail);
-      setDeleteSuccessfull(true);
-      setDeletionError('');
+      const userEmail = localStorage.getItem('authenticatedUser');
+      if (userEmail) {
+        await userApiUtils.deleteUser(token, userEmail);
+        setDeleteSuccessful(true);
+        setDeletionError('');
+        localStorage.removeItem('authenticatedUser');
+        localStorage.removeItem('token');
+      } else {
+        setDeletionError('User not authenticated.');
+        setDeleteSuccessful(false);
+      }
     } catch (error) {
       console.error('Error deleting account:', error);
       setDeletionError('Failed to delete account. Please try again.');
-      setDeleteSuccessfull(false); // Ensure deleteSuccessfull is false on error
+      setDeleteSuccessful(false); // Ensure deleteSuccessful is false on error
     }
   };
 
@@ -84,7 +104,7 @@ function DeleteAccountModal() {
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'flex-start', padding: '24px' }}
       >
-        {deleteSuccessfull ? (
+        {deleteSuccessful ? (
           <Typography variant="body2" sx={{ color: 'secondary.main' }}>
             Account deleted successfully!
           </Typography>
@@ -117,7 +137,7 @@ function DeleteAccountModal() {
           />
         ) : (
           <>
-            {!deleteSuccessfull ? (
+            {!deleteSuccessful ? (
               <>
                 <CustomButton
                   text="Cancel"
