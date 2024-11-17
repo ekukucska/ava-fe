@@ -18,6 +18,11 @@ const typography = {
     fontWeight: 400,
     color: colors.secondary.main,
   },
+  subtitle4: {
+    fontSize: '6rem', // 96px
+    fontWeight: 400,
+    color: colors.primary.main,
+  },
   h1: {
     fontSize: '1.25rem', // 20px
     fontWeight: 400,
