@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
+import { Container } from '@mui/material';
 
 const MainContentContainer = ({ children }) => {
-  return <Box sx={{ padding: '40px' }}>{children}</Box>;
+  return (
+    <Container maxWidth="xl" disableGutters sx={{ padding: '40px' }}>
+      {children}
+    </Container>
+  );
 };
 
 MainContentContainer.propTypes = {
