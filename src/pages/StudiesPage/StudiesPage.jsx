@@ -96,7 +96,6 @@ function StudiesPage() {
       <Card
         sx={{
           boxShadow: '0px 2px 4px 0px #00000033',
-          maxWidth: '1400px',
           marginBottom: '3.5rem',
           borderRadius: '4px 0px 0px 0px',
         }}
@@ -110,18 +109,29 @@ function StudiesPage() {
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          gap: '16px',
+          justifyContent: {
+            xs: 'center',
+            md: 'space-between',
+          },
+          alignItems: {
+            xs: 'center',
+            md: 'flex-start',
+          },
+          gap: '24px',
           marginBottom: '2rem',
-          maxWidth: '1400px',
+          minHeight: { xs: 'auto', sm: 'auto' },
         }}
       >
         {/* STUDIES CARD */}
         <Card
           sx={{
             boxShadow: '0px 2px 4px 0px #00000033',
-            flex: '1 1 300px',
-            maxWidth: '320px',
+            flex: {
+              xs: '1 1 100%',
+              sm: '1 1 calc(50% - 24px)',
+              md: '1 1 300px',
+            },
+            maxWidth: '340px',
             height: '229px',
             padding: '16px',
             borderRadius: '4px 0px 0px 0px',
@@ -129,6 +139,7 @@ function StudiesPage() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            margin: { xs: '0 auto', sm: '0' },
           }}
         >
           <CardContent
@@ -198,8 +209,12 @@ function StudiesPage() {
         <Card
           sx={{
             boxShadow: '0px 2px 4px 0px #00000033',
-            flex: '1 1 300px',
-            maxWidth: '320px',
+            flex: {
+              xs: '1 1 100%',
+              sm: '1 1 calc(50% - 24px)',
+              md: '1 1 300px',
+            },
+            maxWidth: '340px',
             height: '229px',
             padding: '16px',
             borderRadius: '4px 0px 0px 0px',
@@ -207,6 +222,7 @@ function StudiesPage() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            margin: { xs: '0 auto', sm: '0' },
           }}
         >
           <CardContent
@@ -275,8 +291,12 @@ function StudiesPage() {
         <Card
           sx={{
             boxShadow: '0px 2px 4px 0px #00000033',
-            flex: '1 1 300px',
-            maxWidth: '320px',
+            flex: {
+              xs: '1 1 100%',
+              sm: '1 1 calc(50% - 24px)',
+              md: '1 1 300px',
+            },
+            maxWidth: '340px',
             height: '229px',
             padding: '16px',
             borderRadius: '4px 0px 0px 0px',
@@ -284,6 +304,7 @@ function StudiesPage() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            margin: { xs: '0 auto', sm: '0' },
           }}
         >
           <CardContent
@@ -353,8 +374,12 @@ function StudiesPage() {
         <Card
           sx={{
             boxShadow: '0px 2px 4px 0px #00000033',
-            flex: '1 1 300px',
-            maxWidth: '320px',
+            flex: {
+              xs: '1 1 100%',
+              sm: '1 1 calc(50% - 24px)',
+              md: '1 1 300px',
+            },
+            maxWidth: '340px',
             height: '229px',
             padding: '16px',
             borderRadius: '4px 0px 0px 0px',
@@ -362,6 +387,7 @@ function StudiesPage() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            margin: { xs: '0 auto', sm: '0' },
           }}
         >
           <CardContent

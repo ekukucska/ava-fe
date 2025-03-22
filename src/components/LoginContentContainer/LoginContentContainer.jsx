@@ -22,6 +22,7 @@ const WrapperContainer = ({ children }) => {
             width: { xs: '100%', md: '33%' },
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             mt: '40px',
           }}
         >
@@ -69,9 +70,11 @@ const WrapperContainer = ({ children }) => {
           <Box
             sx={{
               maxWidth: { xs: '100%', sm: '320px' },
+              width: '100%',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
-              alignContent: 'center',
+              alignItems: 'center',
               textAlign: 'center',
               mx: { xs: '1rem', sm: '2rem', md: '5rem' },
             }}

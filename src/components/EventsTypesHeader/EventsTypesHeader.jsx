@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Divider } from '@mui/material';
+import { Box, Typography, Divider, Container } from '@mui/material';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTheme } from '@mui/material/styles';
@@ -101,10 +101,6 @@ function EventsTypesHeader() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        alignItems: 'center',
-        justifyContent: 'space-between',
         marginTop: '0px',
         padding: '7px 20px',
         boxShadow: `0 5px 0 0 ${theme.palette.ava_grey.main}`,
@@ -112,101 +108,112 @@ function EventsTypesHeader() {
         gap: { xs: '1rem', sm: '2rem' },
       }}
     >
-      <ArrowBackIosIcon
-        fontSize="medium"
-        color="secondary"
-        onClick={handleOnClickBackCarret}
-        sx={{ cursor: 'pointer' }}
-      />
-
-      <Box
+      <Container
+        maxWidth="xl"
         sx={{
-          marginLeft: { xs: 0, sm: 2 },
-          textAlign: { xs: 'center', sm: 'left' },
-        }}
-      >
-        <Typography variant="body1">Selected studies</Typography>
-        <Typography variant="body2" color="black">
-          {`${formatISODateToDayMonth(
-            studiesListTotalCounts.earliestStartDate
-          )} - ${formatISODateToDayMonth(studiesListTotalCounts.latestEndDate)}`}
-        </Typography>
-      </Box>
-
-      <Divider
-        orientation="vertical"
-        flexItem
-        sx={{
-          display: { xs: 'none', sm: 'block' },
-          marginLeft: 2,
-          marginRight: 2,
-          backgroundColor: theme.palette.ava_light_blue.main,
-          borderColor: theme.palette.ava_light_blue.main,
-        }}
-      />
-
-      <Box
-        sx={{
-          marginLeft: { xs: 0, sm: 2 },
-          textAlign: { xs: 'center', sm: 'left' },
-        }}
-      >
-        <Typography variant="caption">EVENTS</Typography>
-        <Typography variant="h4">
-          {studiesListTotalCounts.totalEvents}
-        </Typography>
-        <Typography variant="caption">ANOMALIES</Typography>
-        <Typography variant="h4">
-          {studiesListTotalCounts.totalAnomalies}
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          marginLeft: { xs: 0, sm: 2 },
+          boxShadow: 'none',
           display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
           alignItems: 'center',
-          gap: 1,
-          flexWrap: 'wrap',
-          justifyContent: { xs: 'center', sm: 'flex-start' },
+          justifyContent: 'space-between',
         }}
       >
-        {mappedEvents.map((eventType) => (
-          <Box
-            key={`box-${eventType.type}`}
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleOnClickEventTypeBox(eventType.type)}
-          >
-            <EventTypeBox
-              number={eventType.count}
-              title={eventType.name}
-              color={eventType.color}
-              isSelectable={true}
-              isSelected={selectedEventsTypes.includes(eventType.type)}
-              isInteractive={true}
-            />
-          </Box>
-        ))}
-      </Box>
+        <ArrowBackIosIcon
+          fontSize="medium"
+          color="secondary"
+          onClick={handleOnClickBackCarret}
+          sx={{ cursor: 'pointer' }}
+        />
 
-      <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-        <Typography variant="caption">SELECTED</Typography>
-        <Typography variant="h4">{selectedEventsTypes.length}</Typography>{' '}
-      </Box>
+        <Box
+          sx={{
+            marginLeft: { xs: 0, sm: 2 },
+            textAlign: { xs: 'center', sm: 'left' },
+          }}
+        >
+          <Typography variant="body1">Selected studies</Typography>
+          <Typography variant="body2" color="black">
+            {`${formatISODateToDayMonth(
+              studiesListTotalCounts.earliestStartDate
+            )} - ${formatISODateToDayMonth(studiesListTotalCounts.latestEndDate)}`}
+          </Typography>
+        </Box>
 
-      <CustomButton
-        text="Show all subjects"
-        variant={showAllSubjects ? 'contained' : 'outlined'}
-        startIcon={<PersonSearchIcon />}
-        sx={{
-          height: '3rem',
-          padding: { xs: '0 16px', sm: '0 32px' },
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        }}
-        onClick={handleOnClickShowAllSubjects}
-      />
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            marginLeft: 2,
+            marginRight: 2,
+            backgroundColor: theme.palette.ava_light_blue.main,
+            borderColor: theme.palette.ava_light_blue.main,
+          }}
+        />
+
+        <Box
+          sx={{
+            marginLeft: { xs: 0, sm: 2 },
+            textAlign: { xs: 'center', sm: 'left' },
+          }}
+        >
+          <Typography variant="caption">EVENTS</Typography>
+          <Typography variant="h4">
+            {studiesListTotalCounts.totalEvents}
+          </Typography>
+          <Typography variant="caption">ANOMALIES</Typography>
+          <Typography variant="h4">
+            {studiesListTotalCounts.totalAnomalies}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            marginLeft: { xs: 0, sm: 2 },
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            flexWrap: 'wrap',
+            justifyContent: { xs: 'center', sm: 'flex-start' },
+          }}
+        >
+          {mappedEvents.map((eventType) => (
+            <Box
+              key={`box-${eventType.type}`}
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOnClickEventTypeBox(eventType.type)}
+            >
+              <EventTypeBox
+                number={eventType.count}
+                title={eventType.name}
+                color={eventType.color}
+                isSelectable={true}
+                isSelected={selectedEventsTypes.includes(eventType.type)}
+                isInteractive={true}
+              />
+            </Box>
+          ))}
+        </Box>
+
+        <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+          <Typography variant="caption">SELECTED</Typography>
+          <Typography variant="h4">{selectedEventsTypes.length}</Typography>
+        </Box>
+
+        <CustomButton
+          text="Show all subjects"
+          variant={showAllSubjects ? 'contained' : 'outlined'}
+          startIcon={<PersonSearchIcon />}
+          sx={{
+            height: '3rem',
+            padding: { xs: '0 16px', sm: '0 32px' },
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+          onClick={handleOnClickShowAllSubjects}
+        />
+      </Container>
     </Box>
   );
 }
