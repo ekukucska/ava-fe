@@ -4,6 +4,7 @@ import { calculateCorrelation } from './calculateCorrelation';
 import { calculateAverageCorrelations } from './calculateAverageCorrelations';
 
 export const createCorrelationsList = (filteredSubjects) => {
+  console.log('createCorrelationsList: filteredSubjects', filteredSubjects); // TODO: Remove this debug message
   const allSubjectsCorrelationsList = [];
 
   filteredSubjects.forEach((subject) => {
@@ -33,6 +34,11 @@ export const createCorrelationsList = (filteredSubjects) => {
   const averageCorrelations = calculateAverageCorrelations(
     allSubjectsCorrelationsList
   );
+
+  console.log(
+    'createCorrelationsList: averageCorrelations',
+    averageCorrelations
+  ); // TODO: Remove this debug message
 
   return averageCorrelations;
 };
