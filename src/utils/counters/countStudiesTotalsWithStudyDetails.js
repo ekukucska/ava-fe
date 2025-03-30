@@ -23,6 +23,7 @@ export const countStudiesTotalsWithStudyDetails = (
     },
     earliestStartDate: null,
     latestEndDate: null,
+    status: '',
   };
 
   // Guard against undefined or null inputs
@@ -63,7 +64,13 @@ export const countStudiesTotalsWithStudyDetails = (
   console.log('Relevant studies found:', relevantStudies.length);
 
   // Process only the relevant studies to find earliest startDate and latest endDate
+  // and to get the status of the first study
   relevantStudies.forEach((study) => {
+    // If this is the first study in studyList, get its status
+    if (study.name === studyList[0] && study.status) {
+      result.status = study.status;
+    }
+
     if (study.startDate && study.endDate) {
       const startDate = new Date(study.startDate);
       const endDate = new Date(study.endDate);
@@ -145,6 +152,7 @@ export const countStudiesTotalsWithStudyDetails = (
     eventTypeTotals: result.eventTypeTotals,
     earliestStartDate: result.earliestStartDate,
     latestEndDate: result.latestEndDate,
+    status: result.status,
   });
 
   return result;

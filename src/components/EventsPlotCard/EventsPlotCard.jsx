@@ -81,7 +81,7 @@ const EventsPlotCard = ({ subjectData, studyName, subjectName }) => {
                 fontWeight: '600',
               }}
             >
-              {studyName} / {subjectName}
+              Study: {studyName} / Subject: {subjectName}
             </Typography>
             <Box
               sx={{

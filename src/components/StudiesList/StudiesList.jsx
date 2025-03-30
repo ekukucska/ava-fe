@@ -226,7 +226,7 @@ const StudiesList = ({ studies, showPercentage }) => {
             >
               <Typography variant="body2">Status:</Typography>
               <Chip
-                label="Not validated"
+                label={`${study.status}`}
                 sx={{
                   backgroundColor: `${theme.palette.ava_grey_two.main}`,
                   color: `${theme.palette.secondary.main}`,
