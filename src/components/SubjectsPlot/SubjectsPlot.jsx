@@ -5,16 +5,16 @@ import { Box, CardContent } from '@mui/material';
 
 const defaultEventTypes = [
   { type: 'anomalies', name: 'Anomalies', color: '#A9A9A9' },
-  { type: 'insulin', name: 'Insulin', color: '#FA4D56' },
-  { type: 'medication', name: 'Medication', color: '#9F1853' },
-  { type: 'food', name: 'Food', color: '#6929C4' },
-  { type: 'alcohol', name: 'Alcohol', color: '#009D9A' },
-  { type: 'exercise', name: 'Exercise', color: '#EE5396' },
-  { type: 'sleep', name: 'Sleep', color: '#520408' },
-  { type: 'stress', name: 'Stress', color: '#002D9C' },
+  { type: 'insulin', name: 'Insulin', color: '#9F1853' },
+  { type: 'medication', name: 'Medication', color: '#30D5C8' },
+  { type: 'food', name: 'Food', color: '#009D9A' },
+  { type: 'alcohol', name: 'Alcohol', color: '#002D9C' },
+  { type: 'exercise', name: 'Exercise', color: '#A56EFF' },
+  { type: 'sleep', name: 'Sleep', color: '#1E90FF' },
+  { type: 'stress', name: 'Stress', color: '#FA4D56' },
   { type: 'pain', name: 'Pain', color: '#B28600' },
-  { type: 'caffeine', name: 'Caffeine', color: '#A56EFF' },
-  { type: 'smoking', name: 'Smoking', color: '#30D5C8' },
+  { type: 'caffeine', name: 'Caffeine', color: '#EE5396' },
+  { type: 'smoking', name: 'Smoking', color: '#005D5D' },
 ];
 
 const SubjectsPlot = ({ data }) => {
