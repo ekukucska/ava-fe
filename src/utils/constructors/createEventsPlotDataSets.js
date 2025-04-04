@@ -28,7 +28,7 @@ export function createEventsPlotDataSets(
         const midpointMs = startMs + (endMs - startMs) / 2;
         return new Date(midpointMs).toISOString();
       }),
-      y: new Array(filteredSubjects.anomalies.length).fill(600),
+      y: new Array(filteredSubjects.anomalies.length).fill(220),
       marker: { color: anomalyMapForSubjectsPlot.color },
       name: anomalyMapForSubjectsPlot.name,
       width: filteredSubjects.anomalies.map(
@@ -60,7 +60,7 @@ export function createEventsPlotDataSets(
             const midpointMs = startMs + (endMs - startMs) / 2;
             return new Date(midpointMs).toISOString();
           }),
-          y: new Array(event.startDateTime.length).fill(550),
+          y: new Array(event.startDateTime.length).fill(220),
           marker: { color: eventMapping.color },
           name: eventMapping.name,
           width: event.startDateTime.map(
