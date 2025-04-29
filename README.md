@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# ava-few
+
+This is the frontend application for the `ava` project — a capstone project developed as part of my Bachelor's degree in Computer Science at Universitatea „Tibiscus” - Timișoara.
+
+Built using **React.js** (with the MERN stack), this web app allows researchers to visualize and interact with medical sensor data from diabetic patients. It features dynamic charts rendered with **Plotly.js**, user-driven filtering, and tools for anomaly detection and patch analysis.
+
+The frontend communicates with the `ava-be` backend API and supports modern development practices including component-based architecture, React hooks, and responsive design.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
